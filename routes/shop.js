@@ -9,10 +9,8 @@ router.get('/', (req, res, next) => {
     res.render('shop', {
         prods: products,
         pageTitle: 'Shop',
-        path: '/shop',
-        shopCSS: true,
-        productCSS: true,
-        activeShop: true
+        styles: ['shop', 'product'],
+        path: '/shop'
     })
 })
 
