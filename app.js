@@ -1,24 +1,20 @@
-const path = require('node:path')
-const rootDir = require('../utils/path')
-
 const express = require('express')
+const path = require('node:path')
 
-const adminRoutes = require('./routes/admin')
-const shopRoutes = require('./routes/shop')
+const rootdir = require('./helpers/path')
+
+const usersRoutes = require('./routes/users')
+const homeRoutes = require('./routes/home')
 
 const app = express()
 
-app.use(express.urlencoded({ extended: true }))
-// serve files statically (direct access to filesystem (without routing handling by node))
-app.use(express.static(path.join(rootDir, 'public')))
+app.use(express.static(path.join(rootdir, 'public')))
 
-// instead of putting /admin in all routes, just put it here and all routes will have /admin/<route>
-// note that you must explicitly put /admin/<route> in attributes such as the action of <form>
-app.use('admin', adminRoutes)
-app.use(shopRoutes)
+app.use(usersRoutes)
+app.use(homeRoutes)
 
 app.use((req, res) => {
-    res.status(404).sendFile(path.join(rootDir, 'views', '404.html'))
+    res.status(404).sendFile(path.join(rootdir, 'views', '404.html'))
 })
 
 app.listen(3000)
