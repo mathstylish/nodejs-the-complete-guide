@@ -42,23 +42,24 @@ img {
     grid-template-columns: 1fr auto;
     gap: 5px;
     justify-content: center;
-    padding: 6px;
+    padding: 10px;
 }
 
-.main__card-title {
+.main__card-username {
     color: #139ddb;
     font-size: 1.125rem;
     font-weight: 700;
     grid-column: 1 / -1;
 }
 
-.main__card-description {
+.main__card-resume {
     color: #989da3;
     font-size: 0.9375rem;
 }
 
-.main__card-price {
+.main__card-language {
     color: #59a952;
+    font-weight: 700;
     text-align: right;
     place-self: center end;
 }
@@ -78,7 +79,7 @@ img {
     }
 }
 
-.main__empty-products {
+.main__no-users {
     color: rgba(0, 0, 0, 0.2);
     font-size: 4rem;
     text-transform: uppercase;

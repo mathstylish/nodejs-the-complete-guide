@@ -1,0 +1,16 @@
+<%- include('includes/head', { styles: styles })%>
+
+<%- include('includes/navigation', { linkPath: path })%>
+
+<main class="container main">
+    <form class="main__form" action="/admin/add-user" method="POST">
+        <label for="input-username">Name</label>
+        <input type="text" id="input-username" name="username" autocomplete="off">
+
+        <label for="input-language">Language</label>
+        <input type="text" id="input-language" name="mainLanguage" autocomplete="off">
+        <button type="submit">Add User</button>
+    </form>
+</main>
+
+<%- include('includes/end') %>
