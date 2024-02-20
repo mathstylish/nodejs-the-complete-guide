@@ -7,17 +7,111 @@
     <title>Add Product</title>
 </head>
 
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    html {
+        font-size: 100%;
+    }
+
+    body {
+        background: #ececec;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .header {
+        background: #19202a;
+        width: 100%;
+    }
+
+    .header__item-list {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        list-style: none;
+    }
+
+    .header__item a {
+        border-bottom: 2px solid transparent;
+        color: #989da3;
+        display: inline-block;
+        padding: 15px 30px;
+        text-decoration: none;
+        text-transform: uppercase;
+
+        &:hover {
+            background: #10151b;
+            border-color: #139ddb;
+            transition: all 0.3s ease-in-out;
+        }
+
+        &.active {
+            background: #10151b;
+        }
+    }
+
+    .main {
+        display: grid;
+        justify-items: center;
+        margin: 30px auto 0 auto;
+        width: min(100% - 32px, 1000px);
+    }
+
+    .main__form {
+        display: grid;
+        gap: 20px;
+        width: 30%;
+    }
+
+    .main__form label {
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.5rem;
+        text-transform: uppercase;
+    }
+
+    .main__form input {
+        background: #f8f8f8;
+        border: 1px solid #d9d9d9;
+        border-radius: 5px;
+        font: inherit;
+        font-size: 1rem;
+        padding: 5px 2px;
+    }
+
+    .main__form button {
+        border: 0;
+        background: #59a952;
+        border-radius: 4px;
+        color: #fff;
+        padding: 10px 20px;
+        text-transform: uppercase;
+
+        &:hover {
+            background: #478741;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+    }
+</style>
+
 <body>
-    <header>
-        <nav>
-            <li><a href="/">Shop</a></li>
-            <li><a href="/admin/add-product">Add Product</a></li>
+    <header class="header">
+        <nav class="header__nav">
+            <ul class="header__item-list">
+                <li class="header__item"><a href="/">Shop</a></li>
+                <li class="header__item"><a class="active" href="/admin/add-product">Add Product</a></li>
+            </ul>
         </nav>
     </header>
 
-    <main>
-        <form action="/admin/add-product" method="post">
-            <input type="text" name="title">
+    <main class="main">
+        <form class="main__form" action="/admin/add-product" method="POST">
+            <label for="input-title">Product name</label>
+            <input type="text" id="input-title" name="title" autocomplete="off">
             <button type="submit">Add Product</button>
         </form>
     </main>

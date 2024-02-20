@@ -6,9 +6,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Page Not Found</title>
 </head>
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    html {
+        font-size: 100%;
+    }
+
+    body {
+        background: #ececec;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .header {
+        background: #19202a;
+        width: 100%;
+    }
+
+    .header__item-list {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        list-style: none;
+    }
+
+    .header__item a {
+        border-bottom: 2px solid transparent;
+        color: #989da3;
+        display: inline-block;
+        padding: 15px 30px;
+        text-decoration: none;
+        text-transform: uppercase;
+
+        &:hover {
+            background: #10151b;
+            border-color: #139ddb;
+            transition: all 0.3s ease-in-out;
+        }
+
+        &.active {
+            background: #10151b;
+        }
+    }
+
+    .main {
+        display: grid;
+        justify-items: center;
+        margin: 150px auto 0 auto;
+        width: min(100% - 32px, 1000px);
+    }
+
+    .main__title {
+        color: rgba(0, 0, 0, 0.2);
+        font-size: 4rem;
+        text-transform: uppercase;
+    }
+
+</style>
 
 <body>
-    <h1>Page Not Found</h1>
+
+    <header class="header">
+        <nav class="header__nav">
+            <ul class="header__item-list">
+                <li class="header__item"><a href="/">Shop</a></li>
+                <li class="header__item"><a href="/admin/add-product">Add Product</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main">
+        <h1 class="main__title">Page Not Found</h1>
+    </main>
 </body>
 
 </html>
