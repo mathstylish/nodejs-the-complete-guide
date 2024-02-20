@@ -1,15 +1,20 @@
-const http = require('node:http')
+const http = require('http')
 
-const routes = require('./routes')
+const express = require('express')
 
-const handler = (req, res) => {
-    const { url, method } = req
-    const routeKey = `${url}:${method.toLowerCase()}`
-    const chosen = routes[routeKey] || routes.default
-    chosen(req, res)
-    return;
-}
+const app = express()
 
-const server = http.createServer(handler)
+app.use((req, res, next) => {
+    console.log('In the middleware 1!')
+    next() // Allows the request to continue to the next middleware in line
+})
+
+app.use((req, res) => {
+    console.log('In another middleware')
+    // ...
+})
+
+const server = http.createServer(app);
 
 server.listen(3000)
+
