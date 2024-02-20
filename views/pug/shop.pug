@@ -1,25 +1,10 @@
-doctype html
+extends layouts/base
 
-html(lang="en")
-
-head
-    meta(charset='UTF-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    title= docTitle
-    link(rel='stylesheet', href='/css/base.css')
-    link(rel='stylesheet', href='/css/header.css')
+block styles
     link(rel='stylesheet', href='/css/shop.css')
     link(rel='stylesheet', href='/css/product.css')
 
-body
-    header.header
-        nav.header__nav
-            ul.header__item-list
-                li.header__item
-                    a.active(href='/') Shop
-                li.header__item
-                    a(href='/admin/add-product') Add Product
-                    
+block content                    
     main.main
         if prods.length > 0
             h1.main__title Products
