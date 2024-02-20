@@ -2,16 +2,15 @@ const path = require('node:path')
 const rootDir = require('./utils/path')
 const express = require('express')
 
-const handlebars = require('express-handlebars')
-
 const adminData = require('./routes/admin')
 const shopRoutes = require('./routes/shop')
 
 const app = express()
 
-app.engine('hbs', handlebars.engine({ extname: 'hbs', defaultLayout: false }))
-app.set('view engine', 'hbs')
-app.set('views', path.join(rootDir, 'views', 'handlebars'))
+// set template engine as ejs
+app.set('view engine', 'ejs')
+// set views/ejs as template files directory
+app.set('views', path.join(rootDir, 'views', 'ejs'))
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(rootDir, 'public')))
