@@ -14,12 +14,13 @@ module.exports = {
         res.redirect('/')
     },
     getProducts: (req, res) => {
-        const products = Product.fetchAll()
-        res.render('shop', {
-            prods: products,
-            pageTitle: 'Shop',
-            styles: ['shop', 'product'],
-            path: '/shop'
+        Product.fetchAll(products => {
+            res.render('shop', {
+                prods: products,
+                pageTitle: 'Shop',
+                styles: ['shop', 'product'],
+                path: '/shop'
+            })
         })
     }
 };

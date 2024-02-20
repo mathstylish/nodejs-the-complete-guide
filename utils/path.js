@@ -1,3 +1,7 @@
 const path = require('node:path')
 
-module.exports = path.dirname(require.main.filename)
+const rootdir = path.dirname(require.main.filename)
+
+module.exports = {
+    pathTo: (...paths) => path.join(rootdir, ...paths)
+}
