@@ -1,23 +1,37 @@
-<!DOCTYPE html>
+doctype html
+
 html(lang="en")
 
 head
-    meta(charset="UTF-8")
-    meta(name="viewport" content="width=device-width, initial-scale=1.0")
-    title My Shop
-    link(rel="stylesheet" href="/css/main.css")
-    link(rel="stylesheet" href="/css/shop.css")
-    link(rel="stylesheet" href="/css/product.css")
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title= docTitle
+    link(rel='stylesheet', href='/css/base.css')
+    link(rel='stylesheet', href='/css/header.css')
+    link(rel='stylesheet', href='/css/shop.css')
+    link(rel='stylesheet', href='/css/product.css')
 
 body
     header.header
         nav.header__nav
             ul.header__item-list
                 li.header__item
-                    a.active(href="/") Shop
+                    a.active(href='/') Shop
                 li.header__item
-                    a(href="/admin/add-product") Add Product
-
+                    a(href='/admin/add-product') Add Product
+                    
     main.main
-        h1.main__title Products
-        p List of all the products...
+        if prods.length > 0
+            h1.main__title Products
+            .main__card-list
+                each product in prods
+                    article.main__card-item
+                        .main__card-image
+                            img(src='/img/image-placeholder.svg', width='30%', alt='image placeholder')
+                        .main__card-content
+                            p.main__card-title= product.title
+                            p.main__card-description Lorem ipsum dolor sit amet consectetur.
+                            p.main__card-price R$ 32.99
+                            button.main__card-btn Add to cart
+        else
+            h1.main__not-found No Products

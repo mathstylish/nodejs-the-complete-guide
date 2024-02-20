@@ -19,7 +19,7 @@ app.use('/admin', adminData.router)
 app.use(shopRoutes)
 
 app.use((req, res) => {
-    res.status(404).render(path.join(rootDir, 'views', '404.html'))
+    res.status(404).sendFile(path.join(rootDir, 'views', '404.html'))
 })
 
 app.listen(3000)

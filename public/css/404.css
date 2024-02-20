@@ -1,3 +1,8 @@
+.main {
+    display: grid;
+    justify-content: center;
+}
+
 .main__title {
     color: rgba(0, 0, 0, 0.2);
     font-size: 4rem;
