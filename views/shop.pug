@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+html(lang="en")
+
+head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title My Shop
+    link(rel="stylesheet" href="/css/main.css")
+    link(rel="stylesheet" href="/css/shop.css")
+    link(rel="stylesheet" href="/css/product.css")
+
+body
+    header.header
+        nav.header__nav
+            ul.header__item-list
+                li.header__item
+                    a.active(href="/") Shop
+                li.header__item
+                    a(href="/admin/add-product") Add Product
+
+    main.main
+        h1.main__title Products
+        p List of all the products...
