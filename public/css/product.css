@@ -1,0 +1,35 @@
+.main__form {
+    display: grid;
+    gap: 20px;
+    width: 30%;
+}
+
+.main__form label {
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 1.5rem;
+    text-transform: uppercase;
+}
+
+.main__form input {
+    background: #f8f8f8;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+    font: inherit;
+    font-size: 1rem;
+    padding: 5px 2px;
+}
+
+.main__form button {
+    border: 0;
+    background: #59a952;
+    border-radius: 4px;
+    color: #fff;
+    padding: 10px 20px;
+    text-transform: uppercase;
+
+    &:hover {
+        background: #478741;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+    }
+}
