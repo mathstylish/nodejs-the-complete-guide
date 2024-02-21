@@ -1,40 +1,75 @@
-.main {
+.form {
     display: grid;
-    justify-items: center;
-}
-
-.main__form {
-    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 20px;
-    width: 30%;
+    margin-top: 80px;
 }
 
-.main__form label {
-    color: rgba(0, 0, 0, 0.5);
-    font-size: 1.5rem;
+.form__image-label {
+    display: grid;
+    justify-content: center;
+    border: 2px solid #b2beb5;
+    border-radius: 8px;
+    color: #b2beb5;
     text-transform: uppercase;
+    font-size: 1.25rem;
 }
 
-.main__form input {
+.form__image-label:hover {
+    cursor: pointer;
+    background: #dfebe2;
+    transition: all 0.3s ease-in-out;
+}
+
+.form__image-label img {
+    max-width: 100%;
+    display: block;
+    align-self: center;
+    justify-self: center;
+}
+
+.form__image {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.form__fields {
+    display: grid;
+    gap: 10px;
+}
+
+.form__fields input {
+    padding: 10px;
+    border-radius: 4px;
     background: #f8f8f8;
     border: 1px solid #d9d9d9;
-    border-radius: 5px;
-    font: inherit;
     font-size: 1rem;
-    padding: 5px 2px;
 }
 
-.main__form button {
+.form__description {
+    padding: 10px;
+    border-radius: 4px;
+    background: #f8f8f8;
+    border: 1px solid #d9d9d9;
+    font-family: inherit;
+}
+
+.form__submit {
+    grid-column: 1 / -1;
     border: 0;
     background: #59a952;
     border-radius: 4px;
     color: #fff;
     padding: 10px 20px;
     text-transform: uppercase;
+}
 
-    &:hover {
-        background: #478741;
-        cursor: pointer;
-        transition: all 0.3s ease-in-out;
-    }
+.form__submit:hover {
+    background: #478741;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
 }

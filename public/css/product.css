@@ -33,7 +33,7 @@
     overflow: hidden;
 }
 
-img {
+.main__card-image img {
     filter: invert(.95);
 }
 

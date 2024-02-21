@@ -19,7 +19,7 @@ module.exports = {
                 prods: products,
                 pageTitle: 'Shop',
                 styles: ['shop', 'product'],
-                path: '/shop'
+                path: '/'
             })
         })
     }

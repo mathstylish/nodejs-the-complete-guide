@@ -14,6 +14,16 @@ body {
 }
 
 .container {
-    margin: 30px auto 0 auto;
+    margin: 0 auto;
     width: min(100% - 32px, 1080px);
+}
+
+.general-message {
+    display: grid;
+    justify-content: center;
+    height: calc(100vh - 52px);
+    align-items: center;
+    font-size: 4rem;
+    color: rgba(0, 0, 0, 0.4);
+    text-transform: uppercase;
 }
