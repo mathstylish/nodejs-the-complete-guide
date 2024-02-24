@@ -4,20 +4,26 @@
 
 <main class="container">
     <form class="form" action="/admin/add-product" method="POST" enctype="multipart/form-data">
-        <label for="input-file" class="form__image-label">
+        <!-- <label for="input-file" class="form__image-label">
             <img style="width: 96px; height: 96px;" src="/img/choose-image.svg" aria-label="add image">
             Load image
         </label>
         <input id="input-file" type="file" name="imageUrl"
-            class="form__image">
+            class="form__image"> -->
 
         <div class="form__fields">
             <input type="text" name="title" autocomplete="off" aria-label="product name"
-                placeholder="Product name" class="form__title">
+                placeholder="Product name" class="form__input">
+
+            <input type="text" name="imageUrl" autocomplete="off" aria-label="image url"
+                placeholder="Image URL" class="form__input">
+
             <input type="text" name="price" autocomplete="off" aria-label="product price"
-                class="form__price" placeholder="Price">
+                class="form__input" placeholder="Price">
+
             <textarea name="description" cols="30" rows="4"
                 class="form__description" placeholder="Description"></textarea>
+                
             <button class="form__submit" type="submit">Add product</button>
         </div>
     </form>

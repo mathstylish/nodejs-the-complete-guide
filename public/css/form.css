@@ -1,11 +1,12 @@
 .form {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    /* grid-template-columns: 1fr 1fr; */
     gap: 20px;
     margin-top: 80px;
+    justify-content: center;
 }
 
-.form__image-label {
+/* .form__image-label {
     display: grid;
     justify-content: center;
     border: 2px solid #b2beb5;
@@ -35,14 +36,14 @@
     overflow: hidden;
     position: absolute;
     z-index: -1;
-}
+} */
 
 .form__fields {
     display: grid;
     gap: 10px;
 }
 
-.form__fields input {
+.form__input {
     padding: 10px;
     border-radius: 4px;
     background: #f8f8f8;
