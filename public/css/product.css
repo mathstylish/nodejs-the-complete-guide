@@ -24,7 +24,6 @@
 
 .main__card-image {
     align-items: center;
-    background-color: #b5b9c1;
     border-top-left-radius: 9.6px;
     border-top-right-radius: 9.6px;
     display: flex;
@@ -34,7 +33,9 @@
 }
 
 .main__card-image img {
-    filter: invert(.95);
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 .main__card-content {
