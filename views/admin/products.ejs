@@ -7,17 +7,17 @@
     <h1 class="main__title">All Products (admin)</h1>
     <div class="main__card-list">
         <% prods.forEach(product => { %>
-        <article class="main__card-item">
-            <div class="main__card-image">
-                <img src="/img/image-placeholder.svg" alt="image placeholder">
-            </div>
-            <div class="main__card-content">
-                <p class="main__card-title"><%= product.title %></p>
-                <p class="main__card-description">Lorem ipsum dolor sit amet consectetur.</p>
-                <p class="main__card-price">R$ 32.99</p>
-                <button class="main__card-btn">Add to cart</button>
-            </div>
-        </article>
+            <article class="main__card-item">
+                <div class="main__card-image">
+                    <img src="<%= product.imageUrl %>" alt="image placeholder">
+                </div>
+                <div class="main__card-content">
+                    <p class="main__card-title"><%= product.title %></p>
+                    <p class="main__card-description"><%= product.description %></p>
+                    <p class="main__card-price">R$ <%= product.price %></p>
+                    <button class="main__card-btn">Add to cart</button>
+                </div>
+            </article>
         <% }) %>
     </div>
     <% } else { %>
