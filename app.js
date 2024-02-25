@@ -2,9 +2,9 @@ const express = require('express')
 
 const path = require('./utils/path')
 
-const adminRoutes = require('./routes/admin')
-const shopRoutes = require('./routes/shop')
-const errorController = require('./controllers/error')
+const adminRoutes = require('./routes/admin.route.js')
+const shopRoutes = require('./routes/shop.route.js')
+const errorController = require('./controllers/error.controller.js')
 
 const app = express()
 

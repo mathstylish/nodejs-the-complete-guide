@@ -71,6 +71,7 @@
     color: #fff;
     grid-column: 1 / -1;
     padding: 10px 20px;
+    margin-top: 5px;
 
     &:hover {
         background: #478741;
@@ -84,4 +85,13 @@
     font-size: 4rem;
     text-transform: uppercase;
     justify-self: center;
+}
+
+.main__card-actions {
+    display: grid;
+    grid-column: 1 / -1;
+}
+
+.main__card-actions form {
+    display: grid;
 }
