@@ -72,6 +72,9 @@
     grid-column: 1 / -1;
     padding: 10px 20px;
     margin-top: 5px;
+    text-decoration: none;
+    text-align: center;
+    font-size: inherit;
 
     &:hover {
         background: #478741;

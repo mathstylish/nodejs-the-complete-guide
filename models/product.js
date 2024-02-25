@@ -1,5 +1,6 @@
 const path = require('../utils/path')
 const fs = require('node:fs')
+const crypto = require('crypto')
 
 const storage = path.pathTo('data', 'products.json')
 
@@ -27,6 +28,7 @@ module.exports = class Product {
     }
 
     save() {
+        this.id = crypto.randomBytes(4).toString('hex')
         loadProductsFromFile(products => {
             products.push(this)
             fs.writeFile(storage, JSON.stringify(products), err => {
