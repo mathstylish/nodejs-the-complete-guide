@@ -13,6 +13,9 @@ exports.getProducts = (req, res) => {
 
 exports.getProduct = (req, res) => {
     const { productId } = req.params
+    Product.findById(productId, product => {
+        console.log(product)
+    })
 }
 
 exports.getIndex = (req, res) => {
