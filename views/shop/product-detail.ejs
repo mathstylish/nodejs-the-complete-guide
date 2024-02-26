@@ -3,21 +3,19 @@
 <%- include('../includes/navigation', { linkPath: path })%>
 
 <main class="main">
-    <% if (prod.id) { %>
+    <% if (product.id) { %>
         <div class="main__card-list">
             <article class="main__card-item">
                 <div class="main__card-image">
-                    <img src="/img/fake-products/<%= prod.imageUrl %>.jpg" alt="image placeholder">
+                    <img src="/img/fake-products/<%= product.imageUrl %>.jpg" alt="image placeholder">
                 </div>
                 <div class="main__card-content">
-                    <p class="main__card-title"><%= prod.title %></p>
-                    <p class="main__card-description"><%= prod.description %></p>
-                    <p class="main__card-price">R$ <%= prod.price %></p>
+                    <p class="main__card-title"><%= product.title %></p>
+                    <p class="main__card-description"><%= product.description %></p>
+                    <p class="main__card-price">R$ <%= product.price %></p>
                 </div>
                 <div class="main__card-actions">
-                    <form action="/cart" method="POST">
-                        <button class="main__card-btn">Add to cart</button>
-                    </form>
+                    <%- include('../includes/add-to-cart.ejs', { product: product }) %>
                 </div>
             </article>
         </div>
