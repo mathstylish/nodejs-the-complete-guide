@@ -2,8 +2,28 @@
 
 <%- include('../includes/navigation', { linkPath: path })%>
 
-<main class="container">
-    <h1 class="general-message">Product detail page</h1>
+<main class="main">
+    <% if (prod.id) { %>
+        <div class="main__card-list">
+            <article class="main__card-item">
+                <div class="main__card-image">
+                    <img src="/img/fake-products/<%= prod.imageUrl %>.jpg" alt="image placeholder">
+                </div>
+                <div class="main__card-content">
+                    <p class="main__card-title"><%= prod.title %></p>
+                    <p class="main__card-description"><%= prod.description %></p>
+                    <p class="main__card-price">R$ <%= prod.price %></p>
+                </div>
+                <div class="main__card-actions">
+                    <form action="/cart" method="POST">
+                        <button class="main__card-btn">Add to cart</button>
+                    </form>
+                </div>
+            </article>
+        </div>
+    <% } else { %>
+     <h1 class="main__empty-products">Failed to load details</h1>
+    <% } %>
 </main>
 
 <%- include('../includes/end') %>
