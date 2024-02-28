@@ -3,7 +3,9 @@
 <%- include('../includes/navigation', { path: path })%>
 
 <main class="container">
-    <form class="form" action="/admin/add-product" method="POST">
+    <form class="form"
+        action="/admin/<% if (editing) { %>edit-product<% } else { %>add-product<% } %>"
+        method="POST">
         <!-- <label for="input-file" class="form__image-label">
             <img style="width: 96px; height: 96px;" src="/img/choose-image.svg" aria-label="add image">
             Load image
@@ -12,19 +14,22 @@
             class="form__image"> -->
 
         <div class="form__fields">
-            <input type="text" name="title" autocomplete="off" aria-label="product name"
-                placeholder="Product name" class="form__input">
+            <input type="text" name="title" aria-label="product name"
+                placeholder="Product name" class="form__input" value="<% if (editing) { %><%= product.title %><% } %>">
 
-            <input type="text" name="imageUrl" autocomplete="off" aria-label="image url"
-                placeholder="Image URL" class="form__input">
+            <input type="text" name="imageUrl" aria-label="image url"
+                placeholder="Image URL" class="form__input" value="<% if (editing) { %><%= product.imageUrl %><% } %>">
 
-            <input type="text" name="price" autocomplete="off" aria-label="product price"
-                class="form__input" placeholder="Price">
+            <input type="text" name="price" aria-label="product price"
+                class="form__input" placeholder="Price" value="<% if (editing) { %><%= product.price %><% } %>">
 
             <textarea name="description" cols="30" rows="4"
-                class="form__description" placeholder="Description"></textarea>
+                class="form__description" placeholder="Description"
+                aria-label="description"><% if (editing) { %><%= product.description %><% } %></textarea>
                 
-            <button class="form__submit" type="submit">Add product</button>
+            <button class="form__submit" type="submit">
+            <% if (editing) { %> Update Product <% } else { %> Add Product <% } %>
+            </button>
         </div>
     </form>
 </main>
