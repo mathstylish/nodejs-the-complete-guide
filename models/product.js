@@ -1,6 +1,7 @@
 const path = require('../utils/path')
 const fs = require('node:fs')
 const crypto = require('crypto')
+const Cart = require('./cart')
 
 const storage = path.pathTo('data', 'products.json')
 
@@ -58,9 +59,13 @@ module.exports = class Product {
 
     static deleteById(id) {
         loadProductsFromFile(products => {
+            const product = products.find(p => p.id === id)
             const updatedProducts = products.filter(p => p.id !== id)
             fs.writeFile(storage, JSON.stringify(updatedProducts), err => {
-                if (err) {
+                if (!err) {
+                    // remove from cart if it is there too
+                    Cart.removeProduct(id, product.price)
+                } else {
                     console.log(`error: ${err}`)
                 }
             })
