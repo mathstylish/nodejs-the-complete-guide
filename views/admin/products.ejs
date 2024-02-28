@@ -17,7 +17,7 @@
                     <p class="main__card-price">R$ <%= product.price %></p>
                 </div>
                 <div class="main__card-actions">
-                    <button class="main__card-btn">Edit</button>
+                    <a href="/admin/edit-product/<%= product.id %>?editing=true" class="main__card-btn">Edit</a>
                     <form action="/admin/delete-product" method="POST">
                         <button class="main__card-btn">Delete</button>
                     </form>
