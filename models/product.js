@@ -55,4 +55,15 @@ module.exports = class Product {
             cb(product)
         })
     }
+
+    static deleteById(id) {
+        loadProductsFromFile(products => {
+            const updatedProducts = products.filter(p => p.id !== id)
+            fs.writeFile(storage, JSON.stringify(updatedProducts), err => {
+                if (err) {
+                    console.log(`error: ${err}`)
+                }
+            })
+        })
+    }
 }
