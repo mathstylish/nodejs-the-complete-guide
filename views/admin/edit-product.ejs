@@ -14,6 +14,9 @@
             class="form__image"> -->
 
         <div class="form__fields">
+            <% if (editing) { %>
+                <input type="hidden" name="productId" value="<%= product.id %>">
+            <% } %>
             <input type="text" name="title" aria-label="product name"
                 placeholder="Product name" class="form__input" value="<% if (editing) { %><%= product.title %><% } %>">
 

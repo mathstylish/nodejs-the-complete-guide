@@ -20,7 +20,8 @@ const loadProductsFromFile = cb => {
 }
 
 module.exports = class Product {
-    constructor(title, imageUrl, price, description) {
+    constructor(id, title, imageUrl, price, description) {
+        this.id = id
         this.title = title
         this.imageUrl = imageUrl
         this.price = price
@@ -28,9 +29,14 @@ module.exports = class Product {
     }
 
     save() {
-        this.id = crypto.randomBytes(4).toString('hex')
         loadProductsFromFile(products => {
-            products.push(this)
+            if (this.id) {
+                const existingProductIndex = products.findIndex(p => p.id === this.id)
+                products[existingProductIndex] = this
+            } else {
+                this.id = crypto.randomBytes(4).toString('hex')
+                products.push(this)
+            }
             fs.writeFile(storage, JSON.stringify(products), err => {
                 if (err) {
                     console.log(`error: ${err}`)
