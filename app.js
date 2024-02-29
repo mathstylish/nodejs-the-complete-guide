@@ -1,10 +1,14 @@
 const express = require('express')
 
+const $env = require('./config/env')
+
 const path = require('./utils/path')
 
 const adminRoutes = require('./routes/admin.route.js')
 const shopRoutes = require('./routes/shop.route.js')
 const errorController = require('./controllers/error.controller.js')
+
+const db = require('./database/connection')
 
 const app = express()
 
@@ -19,4 +23,4 @@ app.use(shopRoutes)
 
 app.use(errorController.get404)
 
-app.listen(3000)
+app.listen($env.APP_PORT)
