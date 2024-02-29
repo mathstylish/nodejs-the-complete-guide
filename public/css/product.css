@@ -83,13 +83,6 @@
     }
 }
 
-.main__empty-products {
-    color: rgba(0, 0, 0, 0.2);
-    font-size: 4rem;
-    text-transform: uppercase;
-    justify-self: center;
-}
-
 .main__card-actions {
     display: grid;
     grid-column: 1 / -1;

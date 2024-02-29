@@ -21,7 +21,7 @@ body {
 .general-message {
     display: grid;
     justify-content: center;
-    height: calc(100vh - 52px);
+    height: calc(100vh - 52px - 20px - 60px);
     align-items: center;
     font-size: 4rem;
     color: rgba(0, 0, 0, 0.4);

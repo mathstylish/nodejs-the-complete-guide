@@ -2,8 +2,30 @@
 
 <%- include('../includes/navigation', { linkPath: path })%>
 
-<main class="container">
-    <h1 class="general-message">Cart page</h1>
+<main class="container" layout-override>
+    <% if (cart.length > 0) { %>
+    <div class="cart">
+        <% cart.forEach(data => { %>
+            <section class="cart__item">
+                <div class="cart__image">
+                    <img src="/img/fake-products/<%=data.product.imageUrl%>.jpg" alt="<%=data.product.title%>">
+                </div>
+                <div class="cart__details">
+                    <h3 class="cart__title"><%=data.product.title%></h3>
+                    <p class="cart__price">R$ <%=data.product.price%></p>
+                    <p class="cart__qty">qty: <%=data.qty%></p>
+                    <p class="cart__subtotal">R$ <%=data.subTotal%></p>
+                    <form action="/delete-product" method="POST">
+                        <button type="submit" class="cart__btn">Delete</button>
+                        <input type="hidden" name="productId">
+                    </form>
+                </div>
+            </section>
+        <% }) %>
+    </div>
+    <% } else { %>
+        <h1 class="general-message">No products in the cart</h1>
+    <% } %>
 </main>
 
 <%- include('../includes/end') %>
