@@ -15,9 +15,9 @@
                     <p class="cart__price">R$ <%=data.product.price%></p>
                     <p class="cart__qty">qty: <%=data.qty%></p>
                     <p class="cart__subtotal">R$ <%=data.subTotal%></p>
-                    <form action="/delete-product" method="POST">
+                    <form action="/cart-delete-item" method="POST">
                         <button type="submit" class="cart__btn">Delete</button>
-                        <input type="hidden" name="productId">
+                        <input type="hidden" name="productId" value="<%= data.product.id %>">
                     </form>
                 </div>
             </section>
