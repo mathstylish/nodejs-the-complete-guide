@@ -1,5 +1,2 @@
 node_modules/
 data/
-.env
-.env.development
-docker.env

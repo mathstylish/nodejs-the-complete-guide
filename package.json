@@ -5,7 +5,6 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon app.js",
-    "dev": "dotenv -c development -- nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -13,12 +12,10 @@
   "license": "ISC",
   "dependencies": {
     "ejs": "^3.1.9",
-    "envalid": "^8.0.0",
     "express": "^4.18.2",
     "mysql2": "^3.9.2"
   },
   "devDependencies": {
-    "dotenv-cli": "^7.3.0",
     "nodemon": "^3.0.3"
   },
   "nodemonConfig": {
