@@ -1,23 +1,18 @@
 const path = require('../utils/path')
-const fs = require('node:fs')
+const fsPromises = require('node:fs/promises')
 const crypto = require('crypto')
 const Cart = require('./cart')
 
 const storage = path.pathTo('data', 'products.json')
 
-const loadProductsFromFile = cb => {
-    // need to use arrow function here, because we need Product class context
-    fs.readFile(storage, (err, fileContent) => {
-        // need to use a callback, because readFile is async
-        // so, fetchAll returns nothing before readFile is done
-        // so, a solution is to pass this callback when readFile is done 
-        // and pass empty array if err or return fileContent
-        if (err) {
-            cb([])
-        } else {
-            cb(JSON.parse(fileContent))
-        }
-    })
+// need to use arrow function here, because we need Product class context
+const loadProductsFromFile = async () => {
+    try {
+        const fileContent = await fsPromises.readFile(storage)
+        return JSON.parse(fileContent)
+    } catch (err) {
+        return []
+    }
 }
 
 module.exports = class Product {
@@ -29,8 +24,9 @@ module.exports = class Product {
         this.description = description
     }
 
-    save() {
-        loadProductsFromFile(products => {
+    async save() {
+        try {
+            const products = await loadProductsFromFile()
             if (this.id) {
                 const existingProductIndex = products.findIndex(p => p.id === this.id)
                 products[existingProductIndex] = this
@@ -38,37 +34,33 @@ module.exports = class Product {
                 this.id = crypto.randomBytes(4).toString('hex')
                 products.push(this)
             }
-            fs.writeFile(storage, JSON.stringify(products), err => {
-                if (err) {
-                    console.log(`error: ${err}`)
-                }
-            })
-        })
+            await fsPromises.writeFile(storage, JSON.stringify(products))
+        } catch (err) {
+            console.log(`error: ${err}`)
+        }
     }
 
-    static fetchAll(cb) {
-        loadProductsFromFile(cb)
+    static async fetchAll() {
+        return await loadProductsFromFile()
     }
 
-    static findById(id, cb) {
-        loadProductsFromFile(products => {
-            const product = products.find(p => p.id === id)
-            cb(product)
-        })
+    static async findById(id) {
+        const products = await loadProductsFromFile()
+        const product = products.find(p => p.id === id)
+        return product
     }
 
-    static deleteById(id) {
-        loadProductsFromFile(products => {
+    static async deleteById(id) {
+        try {
+            const products = await loadProductsFromFile()
             const product = products.find(p => p.id === id)
             const updatedProducts = products.filter(p => p.id !== id)
-            fs.writeFile(storage, JSON.stringify(updatedProducts), err => {
-                if (!err) {
-                    // remove from cart if it is there too
-                    Cart.removeProduct(id, product.price)
-                } else {
-                    console.log(`error: ${err}`)
-                }
-            })
-        })
+            // remove from cart if it is there too
+            Cart.removeProduct(id, product.price)
+            await fsPromises.writeFile(storage, JSON.stringify(updatedProducts))
+        } catch (err) {
+            console.log(`error: ${err}`)
+        }
     }
+    
 }

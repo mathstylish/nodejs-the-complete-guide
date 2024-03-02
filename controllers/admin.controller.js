@@ -1,13 +1,12 @@
 const Product = require("../models/product")
 
-exports.getProducts = (req, res) => {
-    Product.fetchAll(products => {
-        res.render('admin/products', {
-            products: products,
-            pageTitle: 'Admin Products',
-            styles: ['shop', 'product'],
-            path: '/admin/products'
-        })
+exports.getProducts = async (req, res) => {
+    const products = await Product.fetchAll()
+    res.render('admin/products', {
+        products: products,
+        pageTitle: 'Admin Products',
+        styles: ['shop', 'product'],
+        path: '/admin/products'
     })
 }
 
@@ -27,23 +26,19 @@ exports.postAddProduct = (req, res) => {
     res.redirect('/')
 }
 
-exports.getEditProduct = (req, res) => {
+exports.getEditProduct = async (req, res) => {
     const { editing } = req.query
-    if (!editing) {
+    const { productId } = req.params
+    const product = await Product.findById(productId)
+    if (!product) {
         return res.redirect('/')
     }
-    const { productId } = req.params
-    Product.findById(productId, product => {
-        if (!product) {
-            return res.redirect('/')
-        }
-        res.render('admin/edit-product', {
-            pageTitle: 'Edit Product',
-            styles: ['form'],
-            path: '/admin/edit-product',
-            editing: editing,
-            product: product
-        })
+    res.render('admin/edit-product', {
+        pageTitle: 'Edit Product',
+        styles: ['form'],
+        path: '/admin/edit-product',
+        editing: editing,
+        product: product
     })
 }
 
