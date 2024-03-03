@@ -1,13 +1,17 @@
 const Product = require("../models/product")
 
 exports.getProducts = async (req, res) => {
-    const products = await Product.fetchAll()
-    res.render('admin/products', {
+   try {
+     const products = await Product.findAll()
+     res.render('admin/products', {
         products: products,
         pageTitle: 'Admin Products',
         styles: ['shop', 'product'],
         path: '/admin/products'
-    })
+     })
+   } catch (err) {
+        console.log(err)
+   }
 }
 
 exports.getAddProduct = (req, res) => {
