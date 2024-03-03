@@ -2,6 +2,8 @@ const { DataTypes, Model } = require('sequelize')
 
 const sequelize = require('../config/sequelize.config')
 
+const User = require('./user')
+
 class Product extends Model {}
 
 Product.init({

@@ -2,6 +2,8 @@ const { Model, DataTypes } = require('sequelize');
 
 const sequelize = require('../config/sequelize.config')
 
+const Product = require('./product')
+
 class User extends Model {}
 
 User.init({
@@ -21,7 +23,7 @@ User.init({
     }
 }, {
     sequelize,
-    modelName: 'user'
+    modelName: 'user',
 })
 
 module.exports = User
