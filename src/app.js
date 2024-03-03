@@ -20,6 +20,17 @@ app.set('views', path.pathTo('views'))
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.pathTo('public')))
 
+// register mocked user in requests
+app.use(async (req, res, next) => {
+    try {
+        const user = await User.findByPk(1)
+        req.user = user
+        next()
+    } catch (err) {
+        console.log(err)
+    }
+})
+
 app.use('/admin', adminRoutes)
 app.use(shopRoutes)
 
@@ -29,8 +40,20 @@ Product.belongsTo(User, { constraints: true, onDelete: 'CASCADE' })
 User.hasMany(Product)
 
 sequelize
-    .sync({ force: true }) // do not use force: true in production
+    // .sync({ force: true }) // do not use force: true in production
+    .sync()
+    // create a dummy user
     .then(result => {
+        return User.findByPk(1)
+    })
+    .then(user => {
+        if (!user) {
+            return User.create({ name: 'stylish', email: 'mathstylish@mail.com' })
+        }
+        return user
+    })
+    .then(user => {
+        console.log(user)
         app.listen($env.APP_PORT)
     })
     .catch(err => console.log(err))
