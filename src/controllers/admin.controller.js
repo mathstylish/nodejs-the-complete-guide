@@ -39,9 +39,10 @@ exports.postAddProduct = async (req, res) => {
 }
 
 exports.getEditProduct = async (req, res) => {
+    try {
     const { editing } = req.query
     const { productId } = req.params
-    const product = await Product.findById(productId)
+        const product = await Product.findByPk(productId)
     if (!product) {
         return res.redirect('/')
     }
@@ -52,6 +53,9 @@ exports.getEditProduct = async (req, res) => {
         editing: editing,
         product: product
     })
+    } catch (err) {
+        console.log(err)
+    }
 }
 
 exports.postEditProduct = (req, res) => {
