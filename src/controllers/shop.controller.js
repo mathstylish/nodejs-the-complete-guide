@@ -45,28 +45,18 @@ exports.getIndex = async (req, res) => {
 }
 
 exports.getCart = async (req, res) => {
-    const cart = await Cart.getCart()
-    const products = await Product.fetchAll()
-    const cartProducts = []
-
-    products.forEach(product => {
-        const cartProduct = cart.products.find(p => p.id === product.id)
-        if (cartProduct) {
-            cartProducts.push({
-                product: product,
-                subTotal: cartProduct.subTotal,
-                qty: cartProduct.qty
-            })
-        }
-    })
-
-    res.render('shop/cart', {
-        pageTitle: 'Your Cart',
-        styles: ['cart'],
-        path: '/cart',
-        cart: cartProducts
-    })
-
+    try {
+        const cart = await req.user.getCart()
+        const cartProducts = await cart.getProducts()
+        res.render('shop/cart', {
+            pageTitle: 'Your Cart',
+            styles: ['cart'],
+            path: '/cart',
+            cart: cartProducts
+        })
+    } catch (err) {
+        console.log(err)
+    }
 }
 
 exports.postCart = async (req, res) => {
