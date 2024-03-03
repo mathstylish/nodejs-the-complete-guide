@@ -26,7 +26,9 @@ exports.getAddProduct = (req, res) => {
 exports.postAddProduct = async (req, res) => {
     try {
         const { title, imageUrl, price, description } = req.body
-        await Product.create({
+        // thanks to the relationship between user and product,
+        // we can create a product based on the user. This is a sequelize feature
+        await req.user.createProduct({
             title,
             imageUrl,
             price,
