@@ -1,8 +1,9 @@
 const express = require('express')
 
 const $env = require('./config/env')
-
 const path = require('./utils/path')
+
+const sequelize = require('./config/sequelize.config.js')
 
 const adminRoutes = require('./routes/admin.route.js')
 const shopRoutes = require('./routes/shop.route.js')
@@ -21,4 +22,9 @@ app.use(shopRoutes)
 
 app.use(errorController.get404)
 
-app.listen($env.APP_PORT)
+sequelize
+    .sync()
+    .then(result => {
+        app.listen($env.APP_PORT)
+    })
+    .catch(err => console.log(err))
