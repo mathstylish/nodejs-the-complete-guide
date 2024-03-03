@@ -60,10 +60,30 @@ exports.getCart = async (req, res) => {
 }
 
 exports.postCart = async (req, res) => {
-    const { productId } = req.body
-    const product = await Product.findById(productId)
-    Cart.addProduct(productId, product.price)
-    res.redirect('/')
+    try {
+        const { productId } = req.body
+        // get the cart / get the product in the cart
+        const cart = await req.user.getCart()
+        const cartProduct = await cart.getProducts({ where: { id: productId } })
+        // store cart in a new variable, if exists (length > 0)
+        let product;
+        if (cartProduct.length > 0) {
+            product = cartProduct[0]
+        }
+        // product is in the cart
+        if (product) {
+            // ...
+        } else {
+            // product is not in the cart
+            const newCartProduct = await Product.findByPk(productId)
+            if (newCartProduct) {
+                cart.addProduct(newCartProduct, { through: { quantity: 1, subTotal: newCartProduct.price } })
+            }
+        }
+        res.redirect('/cart')
+    } catch (err) {
+        console.log(err)
+    }
 }
 
 exports.postCartDelete = async (req, res) => {
