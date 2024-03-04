@@ -12,6 +12,7 @@ OrderItem.init({
         primaryKey: true
     },
     quantity: DataTypes.INTEGER,
+    subTotal: DataTypes.DOUBLE
 }, {
     sequelize,
     modelName: 'orderItem'

@@ -3,7 +3,28 @@
 <%- include('../includes/navigation', { linkPath: path })%>
 
 <main class="container">
-    <h1 class="general-message">Orders page</h1>
+    <% if (orders.length > 0) { %>
+    <div class="orders">
+        <% orders.forEach(order => { %>
+            <section class="orders__item">
+                <p>Order Nº <%= order.id %></p>
+                <% order.products.forEach(product => { %>
+                    <div class="orders__image">
+                        <img src="/img/fake-products/<%=product.imageUrl%>.jpg" alt="<%=product.title%>">
+                    </div>
+                    <div class="orders__details">
+                        <h3 class="orders__title"><%=product.title%></h3>
+                        <p class="orders__price">R$ <%=product.price%></p>
+                        <p class="orders__qty">qty: <%=product.orderItem.quantity%></p>
+                        <p class="orders__subtotal">R$ <%=product.orderItem.subTotal%></p>
+                    </div>
+                <% }) %>
+            </section>
+        <% }) %>
+    </div>
+    <% } else { %>
+        <h1 class="general-message">No orders</h1>
+    <% } %>
 </main>
 
 <%- include('../includes/end') %>

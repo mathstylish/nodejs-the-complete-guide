@@ -116,27 +116,29 @@ exports.postOrder = async (req, res) => {
         const cartProducts = await cart.getProducts()
         const order = await req.user.createOrder()
         await order.addProducts(cartProducts.map(product => {
-            product.orderItem = { quantity: product.cartItem.quantity }
+            product.orderItem = {
+                quantity: product.cartItem.quantity,
+                subTotal: product.cartItem.subTotal
+            }
             return product
         }))
+        cart.setProducts(null)
         res.redirect('/orders')
     } catch (err) {
         console.log(err)
     }
 }
 
-exports.getOrders = (req, res) => {
-    res.render('shop/orders', {
-        pageTitle: 'Your Orders',
-        styles: [],
-        path: '/orders'
-    })
-}
-
-exports.getCheckout = (req, res) => {
-    res.render('shop/checkout', {
-        pageTitle: 'Checkout',
-        styles: [],
-        path: '/checkout'
-    })
+exports.getOrders = async (req, res) => {
+    try {
+        const orders = await req.user.getOrders({ include: ['products'] })
+        res.render('shop/orders', {
+            pageTitle: 'Your Orders',
+            styles: ['shop', 'order'],
+            path: '/orders',
+            orders: orders
+        })
+    } catch (err) {
+        console.log(err)
+    }
 }
