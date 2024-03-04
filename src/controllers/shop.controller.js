@@ -100,10 +100,16 @@ exports.postCart = async (req, res) => {
 }
 
 exports.postCartDelete = async (req, res) => {
-    const { productId } = req.body
-    const product = await Product.findById(productId)
-    Cart.removeProduct(productId, product.price)
-    res.redirect('/cart')
+    try {
+        const { productId } = req.body
+        const cart = await req.user.getCart()
+        const cartProduct = await cart.getProducts({ where: { id: productId } })
+        const product = cartProduct[0]
+        await product.cartItem.destroy()
+        res.redirect('/cart')
+    } catch (err) {
+        console.log(err)
+    }    
 }
 
 exports.getOrders = (req, res) => {
