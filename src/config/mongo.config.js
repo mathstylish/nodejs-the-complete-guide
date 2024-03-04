@@ -2,6 +2,8 @@ const { MongoClient, ServerApiVersion } = require('mongodb')
 
 const $env = require('./env')
 
+let _dbPool
+
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient($env.MONGO_URI, {
   serverApi: {
@@ -13,12 +15,21 @@ const client = new MongoClient($env.MONGO_URI, {
 
 const mongoConnect = async () => {
   try {
-    return await client.connect()
+    const connection = await client.connect()
+    _dbPool = connection.db()
   } catch (err) {
-    console.log(err)
+    throw err
   } finally {
     await client.close()
   }
 }
 
-module.exports = mongoConnect
+const getDb = () => {
+  if (_dbPool) {
+    return _dbPool
+  }
+  throw 'No database found!'
+}
+
+exports.mongoConnect = mongoConnect
+exports.getDb = getDb

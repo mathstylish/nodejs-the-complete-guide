@@ -1,4 +1,4 @@
-const mongoConnect = require('../config/mongo.config.js')
+const getDb = require('../config/mongo.config.js').getDb
 
 class Product {
     constructor(title, price, description, imageUrl) {
