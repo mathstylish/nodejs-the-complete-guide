@@ -78,3 +78,8 @@
         cursor: pointer;
         transition: all 0.3s ease-in-out;
 }
+
+.cart__order {
+    display: flex;
+    justify-content: center;
+}

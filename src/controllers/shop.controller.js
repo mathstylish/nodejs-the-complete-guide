@@ -1,5 +1,4 @@
 const Product = require('../models/product')
-const Cart = require('../models/cart')
 
 exports.getProducts = async (req, res) => {
     try {
@@ -48,7 +47,6 @@ exports.getCart = async (req, res) => {
     try {
         const cart = await req.user.getCart()
         const cartProducts = await cart.getProducts()
-        console.log(cartProducts)
         res.render('shop/cart', {
             pageTitle: 'Your Cart',
             styles: ['cart'],
@@ -75,7 +73,7 @@ exports.postCart = async (req, res) => {
         if (product) {
             const newQuantity = product.cartItem.quantity + 1
             const newSubTotal = product.cartItem.subTotal + product.price
-            cart.addProduct(product, {
+            await cart.addProduct(product, {
                 through: {
                     quantity: newQuantity,
                     subTotal: newSubTotal
@@ -85,7 +83,7 @@ exports.postCart = async (req, res) => {
             // product is not in the cart
             const newCartProduct = await Product.findByPk(productId)
             if (newCartProduct) {
-                cart.addProduct(newCartProduct, {
+                await cart.addProduct(newCartProduct, {
                     through: {
                         quantity: 1,
                         subTotal: newCartProduct.price 
@@ -110,6 +108,21 @@ exports.postCartDelete = async (req, res) => {
     } catch (err) {
         console.log(err)
     }    
+}
+
+exports.postOrder = async (req, res) => {
+    try {
+        const cart = await req.user.getCart()
+        const cartProducts = await cart.getProducts()
+        const order = await req.user.createOrder()
+        await order.addProducts(cartProducts.map(product => {
+            product.orderItem = { quantity: product.cartItem.quantity }
+            return product
+        }))
+        res.redirect('/orders')
+    } catch (err) {
+        console.log(err)
+    }
 }
 
 exports.getOrders = (req, res) => {
