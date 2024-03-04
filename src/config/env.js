@@ -5,7 +5,8 @@ const $env = envalid.cleanEnv(process.env, {
     DB_HOST: envalid.str(),
     DB_USER: envalid.str(),
     DB_PASSWORD: envalid.str(),
-    DB_NAME: envalid.str()
+    DB_NAME: envalid.str(),
+    MONGO_URI: envalid.str()
 })
 
 module.exports = $env
