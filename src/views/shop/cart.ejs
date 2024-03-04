@@ -8,16 +8,16 @@
         <% cart.forEach(data => { %>
             <section class="cart__item">
                 <div class="cart__image">
-                    <img src="/img/fake-products/<%=data.product.imageUrl%>.jpg" alt="<%=data.product.title%>">
+                    <img src="/img/fake-products/<%=data.imageUrl%>.jpg" alt="<%=data.title%>">
                 </div>
                 <div class="cart__details">
-                    <h3 class="cart__title"><%=data.product.title%></h3>
-                    <p class="cart__price">R$ <%=data.product.price%></p>
-                    <p class="cart__qty">qty: <%=data.qty%></p>
-                    <p class="cart__subtotal">R$ <%=data.subTotal%></p>
+                    <h3 class="cart__title"><%=data.title%></h3>
+                    <p class="cart__price">R$ <%=data.price%></p>
+                    <p class="cart__qty">qty: <%=data.cartItem.quantity%></p>
+                    <p class="cart__subtotal">R$ <%=data.cartItem.subTotal%></p>
                     <form action="/cart-delete-item" method="POST">
                         <button type="submit" class="cart__btn">Delete</button>
-                        <input type="hidden" name="productId" value="<%= data.product.id %>">
+                        <input type="hidden" name="productId" value="<%= data.id %>">
                     </form>
                 </div>
             </section>

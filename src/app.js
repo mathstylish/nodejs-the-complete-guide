@@ -47,8 +47,8 @@ Cart.belongsToMany(Product, { through: CartItem })
 Product.belongsToMany(Cart, { through: CartItem })
 
 sequelize
-    .sync({ force: true }) // do not use force: true in production
-    // .sync()
+    // .sync({ force: true }) // do not use force: true in production
+    .sync()
     // create a dummy user
     .then(result => {
         return User.findByPk(1)
