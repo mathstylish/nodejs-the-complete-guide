@@ -1,4 +1,5 @@
-const Product = require("../models/product")
+const logger = require('../helpers/logger')
+const Product = require('../models/product')
 
 // exports.getProducts = async (req, res) => {
 //    try {
@@ -26,17 +27,11 @@ exports.getAddProduct = (req, res) => {
 exports.postAddProduct = async (req, res) => {
     try {
         const { title, imageUrl, price, description } = req.body
-        // thanks to the relationship between user and product,
-        // we can create a product based on the user. This is a sequelize feature
-        await req.user.createProduct({
-            title,
-            imageUrl,
-            price,
-            description
-        })
+        const product = new Product(title, imageUrl, price, description)
+        await product.save()
         res.redirect('/admin/products')
     } catch (err) {
-        console.log(err)
+        logger.error(err)
     }
 }
 

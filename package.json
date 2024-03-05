@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/app.js",
   "scripts": {
-    "dev": "dotenv -c development -- nodemon src/app.js",
+    "dev": "dotenv -c development -- nodemon src/app.js | pino-pretty",
     "start": "nodemon src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,11 +17,13 @@
     "express": "^4.18.2",
     "mongodb": "^6.4.0",
     "mysql2": "^3.9.2",
+    "pino": "^8.19.0",
     "sequelize": "^6.37.1"
   },
   "devDependencies": {
     "dotenv-cli": "^7.3.0",
-    "nodemon": "^3.0.3"
+    "nodemon": "^3.0.3",
+    "pino-pretty": "^10.3.1"
   },
   "nodemonConfig": {
     "ignore": [

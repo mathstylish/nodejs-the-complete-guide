@@ -1,11 +1,12 @@
 const { MongoClient, ServerApiVersion } = require('mongodb')
 
-const $env = require('./env')
+const appEnv = require('../helpers/env')
+const logger = require('../helpers/logger')
 
 let _dbPool
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient($env.MONGO_URI, {
+const client = new MongoClient(appEnv.MONGO_URI, {
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
@@ -16,12 +17,12 @@ const client = new MongoClient($env.MONGO_URI, {
 const mongoConnect = async () => {
   try {
     const connection = await client.connect()
+    logger.info('mongoDB connected successfully')
     _dbPool = connection.db()
   } catch (err) {
+    logger.fatal(err, `[${err.name}] ${err.message}`)
     throw err
-  } finally {
-    await client.close()
-  }
+  } 
 }
 
 const getDb = () => {

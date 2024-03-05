@@ -1,7 +1,7 @@
 const express = require('express')
 
-const $env = require('./config/env')
-const path = require('./utils/path')
+const appEnv = require('./helpers/env.js')
+const path = require('./helpers/path.js')
 
 const adminRoutes = require('./routes/admin.route.js')
 const shopRoutes = require('./routes/shop.route.js')
@@ -22,4 +22,4 @@ app.use('/admin', adminRoutes)
 
 app.use(errorController.get404)
 
-mongoConnect().then(() => app.listen($env.APP_PORT))
+mongoConnect().then(() => app.listen(appEnv.PORT))

@@ -1,3 +1,4 @@
+const logger = require('../helpers/logger')
 const getDb = require('../config/mongo.config.js').getDb
 
 class Product {
@@ -8,14 +9,18 @@ class Product {
         this.imageUrl = imageUrl
     }
 
-    save() {
+    async save() {
         try {
             const db = getDb()
-            db.collection('products').insertOne(this)
+            const product = await db.collection('products').insertOne(this)
+            logger.debug(product, 'product saved')
+            return product
         } catch (err) {
-            console.log(err)
+            logger.error(err)
         }
     }
+
+
 }
 
 module.exports = Product
