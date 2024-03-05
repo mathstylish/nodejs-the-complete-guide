@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.pathTo('public')))
 
 app.use('/admin', adminRoutes)
-// app.use(shopRoutes)
+app.use(shopRoutes)
 
 app.use(errorController.get404)
 

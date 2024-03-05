@@ -2,11 +2,11 @@ const logger = require('../helpers/logger')
 const getDb = require('../config/mongo.config.js').getDb
 
 class Product {
-    constructor(title, price, description, imageUrl) {
+    constructor(title, imageUrl, price, description) {
         this.title = title
+        this.imageUrl = imageUrl
         this.price = price
         this.description = description
-        this.imageUrl = imageUrl
     }
 
     async save() {
@@ -16,11 +16,21 @@ class Product {
             logger.debug(product, 'product saved')
             return product
         } catch (err) {
-            logger.error(err)
+            logger.error(err, 'error on product save')
         }
     }
 
-
+    static async fetchAll() {
+        try {
+            const db = getDb()
+            const products = await db.collection('products')
+                .find()
+                .toArray()
+            return products
+        } catch (err) {
+            logger.error(err, 'error on product fetching')
+        }
+    }
 }
 
 module.exports = Product

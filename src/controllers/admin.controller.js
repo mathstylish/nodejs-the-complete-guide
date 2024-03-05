@@ -1,19 +1,20 @@
 const logger = require('../helpers/logger')
 const Product = require('../models/product')
 
-// exports.getProducts = async (req, res) => {
-//    try {
-    //  const products = await req.user.getProducts()
-    //  res.render('admin/products', {
-        // products: products,
-        // pageTitle: 'Admin Products',
-        // styles: ['shop', 'product'],
-        // path: '/admin/products'
-    //  })
-//    } catch (err) {
-        // console.log(err)
-//    }
-// }
+exports.getProducts = async (req, res) => {
+   try {
+     const products = await Product.fetchAll()
+     logger.debug(products, 'admin products fetched')
+     res.render('admin/products', {
+        products: products,
+        pageTitle: 'Admin Products',
+        styles: ['shop', 'product'],
+        path: '/admin/products'
+     })
+   } catch (err) {
+        logger.error(err, 'getProducts error')
+   }
+}
 
 exports.getAddProduct = (req, res) => {
     res.render('admin/edit-product', {
@@ -31,7 +32,7 @@ exports.postAddProduct = async (req, res) => {
         await product.save()
         res.redirect('/admin/products')
     } catch (err) {
-        logger.error(err)
+        logger.error(err, 'postAddProduct error')
     }
 }
 

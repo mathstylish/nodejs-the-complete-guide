@@ -21,7 +21,6 @@ const mongoConnect = async () => {
     _dbPool = connection.db()
   } catch (err) {
     logger.fatal(err, `[${err.name}] ${err.message}`)
-    throw err
   } 
 }
 
