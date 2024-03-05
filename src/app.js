@@ -7,7 +7,7 @@ const adminRoutes = require('./routes/admin.route.js')
 const shopRoutes = require('./routes/shop.route.js')
 const errorController = require('./controllers/error.controller.js')
 
-const mongoConnect = require('./config/mongo.config.js')
+const mongoConnect = require('./config/mongo.config.js').mongoConnect
 
 const app = express()
 

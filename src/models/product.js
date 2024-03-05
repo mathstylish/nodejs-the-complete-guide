@@ -9,7 +9,12 @@ class Product {
     }
 
     save() {
-
+        try {
+            const db = getDb()
+            db.collection('products').insertOne(this)
+        } catch (err) {
+            console.log(err)
+        }
     }
 }
 
