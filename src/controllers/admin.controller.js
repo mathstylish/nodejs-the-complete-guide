@@ -60,12 +60,14 @@ exports.getEditProduct = async (req, res) => {
 exports.postEditProduct = async (req, res) => {
     try {
         const { productId, title, imageUrl, price, description } = req.body
-        const product = await Product.findByPk(productId)
-        product.title = title
-        product.imageUrl = imageUrl
-        product.price = price
-        product.description = description
-        product.save()
+        const updatedProduct = new Product(
+            title,
+            imageUrl,
+            price,
+            description,
+            productId
+        )
+        await updatedProduct.save()
         res.redirect('/admin/products')
     } catch (err) {
         console.log(err)
