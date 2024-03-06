@@ -16,20 +16,20 @@ exports.getProducts = async (req, res) => {
     }
 }
 
-// exports.getProduct = async (req, res) => {
-//     try {
-//         const { productId } = req.params
-//         const product = await Product.findByPk(productId)
-//         res.render('shop/product-detail', {
-//             product: product,
-//             pageTitle: product.title,
-//             styles: ['shop', 'product'],
-//             path: '/products'
-//         })
-//     } catch (err) {
-//         console.log(err)
-//     }
-// }
+exports.getProduct = async (req, res) => {
+    try {
+        const { productId } = req.params
+        const product = await Product.findById(productId)
+        res.render('shop/product-detail', {
+            product: product,
+            pageTitle: product.title,
+            styles: ['shop', 'product'],
+            path: '/products'
+        })
+    } catch (err) {
+        console.log(err)
+    }
+}
 
 exports.getIndex = async (req, res) => {
     try {

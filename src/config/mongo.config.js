@@ -1,4 +1,4 @@
-const { MongoClient, ServerApiVersion } = require('mongodb')
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
 
 const appEnv = require('../helpers/env')
 const logger = require('../helpers/logger')
@@ -31,5 +31,10 @@ const getDb = () => {
   throw 'No database found!'
 }
 
+const parseIdFromHexString = (id) => {
+  return ObjectId.createFromHexString(id)
+}
+
 exports.mongoConnect = mongoConnect
 exports.getDb = getDb
+exports.parseIdFromHexString = parseIdFromHexString

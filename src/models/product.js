@@ -1,5 +1,5 @@
 const logger = require('../helpers/logger')
-const getDb = require('../config/mongo.config.js').getDb
+const { getDb, parseIdFromHexString } = require('../config/mongo.config.js')
 
 class Product {
     constructor(title, imageUrl, price, description) {
@@ -29,6 +29,18 @@ class Product {
             return products
         } catch (err) {
             logger.error(err, 'error on product fetching')
+        }
+    }
+
+    static async findById(id) {
+        try {
+            const db = getDb()
+            const product = await db.collection('products')
+                .findOne({ _id: parseIdFromHexString(id) })
+            logger.debug(product, 'single product fetched')
+            return product
+        } catch (err) {
+            logger.error(err, 'error on fetching a single product')
         }
     }
 }
