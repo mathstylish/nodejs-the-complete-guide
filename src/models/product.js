@@ -7,7 +7,7 @@ class Product {
         this.imageUrl = imageUrl
         this.price = price
         this.description = description
-        this._id = parseIdFromHexString(id)
+        this._id = id
     }
 
     async save() {
@@ -21,7 +21,7 @@ class Product {
             }
             product = await db.collection('products')
                 .updateOne(
-                    { _id: this._id },
+                    { _id: parseIdFromHexString(this._id) },
                     { $set: this }
                 )
             logger.debug(product, 'product updated')
@@ -56,6 +56,17 @@ class Product {
             return product
         } catch (err) {
             logger.error(err, 'error on fetching a single product')
+        }
+    }
+
+    static async deleteById(id) {
+        try {
+            const db = getDb()
+            const product = await db.collection('products')
+                .deleteOne({ _id: parseIdFromHexString(id) })
+            logger.debug(product, 'product removed')
+        } catch (err) {
+            logger.error(err, 'error on delete product')
         }
     }
 }

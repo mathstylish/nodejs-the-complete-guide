@@ -43,7 +43,7 @@ exports.getEditProduct = async (req, res) => {
         const product = await Product.findById(productId)
         if (!product) {
             logger.debug(productId, 'product not found with this id')
-            return res.redirect('/')
+            return res.redirect('/admin/products')
         }
         res.render('admin/edit-product', {
             pageTitle: 'Edit Product',
@@ -74,13 +74,12 @@ exports.postEditProduct = async (req, res) => {
     }
 }
 
-// exports.postDeleteProduct = async (req, res) => {
-//     try {
-//         const { productId } = req.body
-//         const product = await Product.findByPk(productId)
-//         product.destroy()
-//         res.redirect('/admin/products')
-//     } catch (err) {
-//         console.log(err)
-//     }
-// }
+exports.postDeleteProduct = async (req, res) => {
+    try {
+        const { productId } = req.body
+        await Product.deleteById(productId)
+        res.redirect('/admin/products')
+    } catch (err) {
+        console.log(err)
+    }
+}
