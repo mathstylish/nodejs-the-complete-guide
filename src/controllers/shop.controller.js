@@ -3,8 +3,9 @@ const Product = require('../models/product')
 
 exports.getProducts = async (req, res) => {
     try {
+        logger.info(`request received: ${req.path}`, null, req)
         const products = await Product.fetchAll()
-        logger.debug(products, 'shop products fetched')
+        logger.info(`products from database: ${req.path}`, products, null)
         res.render('shop/product-list', {
             products: products,
             pageTitle: 'All Products',
@@ -12,14 +13,16 @@ exports.getProducts = async (req, res) => {
             path: '/products'
         })
     } catch (err) {
-        logger.error(err, 'getProducts error')
+        logger.error('error when trying to fetch products', err, { prettyStack: true })
     }
 }
 
 exports.getProduct = async (req, res) => {
     try {
+        logger.info(`request received: ${req.path}`, null, req)
         const { productId } = req.params
         const product = await Product.findById(productId)
+        logger.info(`product from database: ${req.path}`, product, null)
         res.render('shop/product-detail', {
             product: product,
             pageTitle: product.title,
@@ -27,14 +30,15 @@ exports.getProduct = async (req, res) => {
             path: '/products'
         })
     } catch (err) {
-        console.log(err)
+        logger.error('error when trying to fetch product', err, { prettyStack: true })
     }
 }
 
 exports.getIndex = async (req, res) => {
     try {
+        logger.info(`request received: ${req.path}`, null, req)
         const products = await Product.fetchAll()
-        logger.debug(products, 'shop index fetched')
+        logger.info(`products from database: ${req.path}`, products, null)
         res.render('shop/index', {
             products: products,
             pageTitle: 'Shop',
@@ -42,7 +46,7 @@ exports.getIndex = async (req, res) => {
             path: '/'
         })
     } catch (err) {
-        logger.error(err, 'getIndex error')
+        logger.error('error when trying to fetch products', err, { prettyStack: true })
     }
 }
 

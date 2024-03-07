@@ -16,7 +16,6 @@ class Product {
             let product;
             if (!this._id) {
                 product = await db.collection('products').insertOne(this)
-                logger.debug(product, 'product saved')
                 return product
             }
             product = await db.collection('products')
@@ -24,7 +23,6 @@ class Product {
                     { _id: parseIdFromHexString(this._id) },
                     { $set: this }
                 )
-            logger.debug(product, 'product updated')
             return product
         } catch (err) {
             if (!this._id) {
@@ -52,7 +50,6 @@ class Product {
             const db = getDb()
             const product = await db.collection('products')
                 .findOne({ _id: parseIdFromHexString(id) })
-            logger.debug(product, 'single product fetched')
             return product
         } catch (err) {
             logger.error(err, 'error on fetching a single product')
@@ -64,7 +61,6 @@ class Product {
             const db = getDb()
             const product = await db.collection('products')
                 .deleteOne({ _id: parseIdFromHexString(id) })
-            logger.debug(product, 'product removed')
         } catch (err) {
             logger.error(err, 'error on delete product')
         }
