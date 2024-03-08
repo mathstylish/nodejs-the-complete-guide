@@ -1,5 +1,5 @@
-const appEnv = require('../config/env')
-const pino = require('pino')
+const appEnv = require('../config/env');
+const pino = require('pino');
 
 const log = pino({
     level: appEnv.PINO_LOG_LEVEL,
@@ -9,72 +9,89 @@ const log = pino({
             return { level: label.toUpperCase() }
         }
     }
-})
+});
 
 const extractRequestInfo = (req) => {
     const request = {
         method: req.method,
         path: req.path,
-        body: req.body,
-        query: req.query
-    }
-    if (req.user) {
-        request.user = {
-            id: req.id,
-            name: req.name
-        }
-    }
-    request.server = {
-        ip: req.ip
-    }
-    return request
-}
+        server: {
+            ip: req.ip
+        },
+        ...(req.body && Object.keys(req.body).length > 0 && { body: req.body }),
+        ...(req.query && Object.keys(req.query).length > 0 && { query: req.query }),
+        ...(req.user && req.user.id && req.user.name && { user: { id: req.user.id, name: req.user.name } }),
+    };
 
-const extractErrorInfo = (error, prettyStack) => {
-    const errorInfo = {}
-    errorInfo.thrownBy = error.name
-    errorInfo.reason = error.message
-    if (prettyStack) {
-        errorInfo = error.stack.split('\n').map(line => line.trim()) || null
+    return request;
+};
+
+const extractErrorInfo = (error, formatStackTrace) => {
+    const errorInfo = {
+        thrownBy: error.name,
+        reason: error.message
+    };
+
+    if (formatStackTrace) {
+        errorInfo.stack = error.stack.split('\n').map(line => line.trim()) || null;
     } else {
-        errorInfo.stack = error.stack
+        errorInfo.stack = error.stack;
     }
-    return errorInfo
-}
 
-exports.error = (message, errObj, reqObj, { prettyStack = false } = {}) => {
-    const timeStamp = new Date().toISOString()
+    return errorInfo;
+};
+
+const logFunc = (level, message, { data, request } = {}) => {
+    const logResponse = {};
+
+    if (data) {
+        logResponse.data = data;
+    }
+
+    if (request) {
+        logResponse.reqInfo = extractRequestInfo(request);
+    }
+
+    return log[level](logResponse, message);
+};
+
+exports.fatal = (message, { errorObject, formatStackTrace = false, request } = {}) => {
+    const timeStamp = new Date().toISOString();
     const logResponse = {
         timeStamp: timeStamp,
         errorType: 'application error'
-    }
-    if (reqObj) {
-        logResponse.reqInfo = extractRequestInfo(reqObj)
-    }
-    if (errObj) {
-        logResponse.errorInfo = extractErrorInfo(errObj, prettyStack)
-    }
-    return log.error(logResponse, message)
-}
+    };
 
-exports.info = (message, anObj, reqObj) => {
-    const logResponse = {}
-    if (anObj) {
-        logResponse.data = anObj
+    if (request) {
+        logResponse.reqInfo = extractRequestInfo(request);
     }
-    if (reqObj) {
-        logResponse.request = extractRequestInfo(reqObj)
-    }
-    return log.info(logResponse, message)
-}
 
-exports.debug = (message, anObj, reqObj) => {
-    const logMessage = {}
-    if (anObj) {
-        logMessage.data = anObj
+    if (errorObject) {
+        logResponse.errorInfo = extractErrorInfo(errorObject, formatStackTrace);
     }
-    if (reqObj) {
-        logResponse.reqInfo = extractRequestInfo(reqObj)
+
+    return log.fatal(logResponse, message);
+};
+
+exports.error = (message, { errorObject, formatStackTrace = false, request } = {}) => {
+    const timeStamp = new Date().toISOString();
+    const logResponse = {
+        timeStamp: timeStamp,
+        errorType: 'application error'
+    };
+
+    if (request) {
+        logResponse.reqInfo = extractRequestInfo(request);
     }
-    return log.debug(logMessage, message)
-}
+
+    if (errorObject) {
+        logResponse.errorInfo = extractErrorInfo(errorObject, formatStackTrace);
+    }
+
+    return log.error(logResponse, message);
+};
+
+exports.info = (message, options) => logFunc('info', message, options);
+exports.warn = (message, options) => logFunc('warn', message, options);
+exports.debug = (message, options) => logFunc('debug', message, options);
+exports.trace = (message, options) => logFunc('trace', message, options);

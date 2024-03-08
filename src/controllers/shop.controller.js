@@ -3,9 +3,9 @@ const Product = require('../models/product')
 
 exports.getProducts = async (req, res) => {
     try {
-        logger.info(`request received: ${req.path}`, null, req)
+        logger.info(`Request received for fetching products. Path: ${req.path}, Method: ${req.method}`)
         const products = await Product.fetchAll()
-        logger.info(`products from database: ${req.path}`, products, null)
+        logger.info(`Products fetched successfully. Path: ${req.path}, Method: ${req.method}`)
         res.render('shop/product-list', {
             products: products,
             pageTitle: 'All Products',
@@ -13,16 +13,16 @@ exports.getProducts = async (req, res) => {
             path: '/products'
         })
     } catch (err) {
-        logger.error('error when trying to fetch products', err, { prettyStack: true })
+        logger.error('Error fetching products', { err, formatStackTrace: true })
     }
 }
 
 exports.getProduct = async (req, res) => {
     try {
-        logger.info(`request received: ${req.path}`, null, req)
         const { productId } = req.params
+        logger.info(`Request received for fetching product. Path: ${req.path}, Method: ${req.method}, Product ID: ${productId}`)
         const product = await Product.findById(productId)
-        logger.info(`product from database: ${req.path}`, product, null)
+        logger.info(`Product fetched successfully. Path: ${req.path}, Method: ${req.method}, Product ID: ${productId}`)
         res.render('shop/product-detail', {
             product: product,
             pageTitle: product.title,
@@ -30,15 +30,15 @@ exports.getProduct = async (req, res) => {
             path: '/products'
         })
     } catch (err) {
-        logger.error('error when trying to fetch product', err, { prettyStack: true })
+        logger.error('Error fetching product', { err, formatStackTrace: true })
     }
 }
 
 exports.getIndex = async (req, res) => {
     try {
-        logger.info(`request received: ${req.path}`, null, req)
+        logger.info(`Request received for fetching products. Path: ${req.path}, Method: ${req.method}`)
         const products = await Product.fetchAll()
-        logger.info(`products from database: ${req.path}`, products, null)
+        logger.info(`Products fetched successfully. Path: ${req.path}, Method: ${req.method}`)
         res.render('shop/index', {
             products: products,
             pageTitle: 'Shop',
@@ -46,9 +46,10 @@ exports.getIndex = async (req, res) => {
             path: '/'
         })
     } catch (err) {
-        logger.error('error when trying to fetch products', err, { prettyStack: true })
+        logger.error('Error fetching products', { err, formatStackTrace: true })
     }
 }
+
 
 // exports.getCart = async (req, res) => {
 //     try {

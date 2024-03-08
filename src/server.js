@@ -7,10 +7,10 @@ const init = async () => {
     try {
         await mongoConnect()
         app.listen(appEnv.PORT, () => {
-            logger.info(`application listening requests on http://localhost:${appEnv.PORT}`)
+            logger.info(`application started`)
         })
     } catch (err) {
-        logger.error('error on starting server', err, { prettyStack: true })
+        logger.error('error on starting server', { err, formatStackTrace: true })
     }
 }
 
