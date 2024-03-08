@@ -66,44 +66,51 @@ exports.getIndex = async (req, res) => {
 //     }
 // }
 
-// exports.postCart = async (req, res) => {
-//     try {
-//         const { productId } = req.body
-//         // get the cart / get the product in the cart
-//         const cart = await req.user.getCart()
-//         const cartProduct = await cart.getProducts({ where: { id: productId } })
-//         // store cart in a new variable, if exists (length > 0)
-//         let product;
-//         if (cartProduct.length > 0) {
-//             product = cartProduct[0]
-//         }
-//         // product is in the cart
-//         if (product) {
-//             const newQuantity = product.cartItem.quantity + 1
-//             const newSubTotal = product.cartItem.subTotal + product.price
-//             await cart.addProduct(product, {
-//                 through: {
-//                     quantity: newQuantity,
-//                     subTotal: newSubTotal
-//                 }
-//             })
-//         } else {
-//             // product is not in the cart
-//             const newCartProduct = await Product.findByPk(productId)
-//             if (newCartProduct) {
-//                 await cart.addProduct(newCartProduct, {
-//                     through: {
-//                         quantity: 1,
-//                         subTotal: newCartProduct.price 
-//                     } 
-//                 })
-//             }
-//         }
-//         res.redirect('/cart')
-//     } catch (err) {
-//         console.log(err)
-//     }
-// }
+exports.postCart = async (req, res) => {
+    try {
+        logger.info(`request received in`, { req })
+        const { productId } = req.body
+        const product = await Product.findById(productId)
+        logger.info(
+            `Product to be inserted in the cart: productId: ${productId} [${typeof productId}] - product._id: ${product._id} [${typeof product._id}]`,
+            { data: product }
+        )
+        await req.user.addToCart(product)
+        // // get the cart / get the product in the cart
+        // const cart = await req.user.getCart()
+        // const cartProduct = await cart.getProducts({ where: { id: productId } })
+        // // store cart in a new variable, if exists (length > 0)
+        // let product;
+        // if (cartProduct.length > 0) {
+        //     product = cartProduct[0]
+        // }
+        // // product is in the cart
+        // if (product) {
+        //     const newQuantity = product.cartItem.quantity + 1
+        //     const newSubTotal = product.cartItem.subTotal + product.price
+        //     await cart.addProduct(product, {
+        //         through: {
+        //             quantity: newQuantity,
+        //             subTotal: newSubTotal
+        //         }
+        //     })
+        // } else {
+        //     // product is not in the cart
+        //     const newCartProduct = await Product.findByPk(productId)
+        //     if (newCartProduct) {
+        //         await cart.addProduct(newCartProduct, {
+        //             through: {
+        //                 quantity: 1,
+        //                 subTotal: newCartProduct.price 
+        //             } 
+        //         })
+        //     }
+        // }
+        res.redirect('/cart')
+    } catch (err) {
+        console.log(err)
+    }
+}
 
 // exports.postCartDelete = async (req, res) => {
 //     try {

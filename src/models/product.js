@@ -56,8 +56,7 @@ class Product {
         try {
             const db = getDb()
             logger.info(`Searching for product with ID: ${id} [${typeof id}]...`)
-            const product = await db.collection('products')
-                .findOne({ _id: parseIdFromHexString(id) })
+            const product = await db.collection('products').findOne({ _id: parseIdFromHexString(id) })
             logger.info(`Product found successfully. Found product object:`, { data: product })
             return product
         } catch (err) {

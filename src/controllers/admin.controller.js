@@ -30,6 +30,7 @@ exports.getAddProduct = (req, res) => {
 exports.postAddProduct = async (req, res) => {
     try {
         const { title, imageUrl, price, description } = req.body
+        console.log('AAAA', req.user)
         const product = new Product(title, imageUrl, price, description, null, req.user._id)
         logger.info(`Saving product. Path: ${req.path}, Method: ${req.method}`, product, null)
         await product.save()
