@@ -19,7 +19,7 @@ const mongoConnect = async () => {
     logger.info('mongoDB connected successfully')
     _dbPool = connection.db()
   } catch (err) {
-    logger.error('error on connecting to mongoDB', err, { formatStackTrace: true })
+    logger.error(err, 'error on connecting to database')
   } 
 }
 

@@ -10,7 +10,7 @@ const init = async () => {
             logger.info(`application started`)
         })
     } catch (err) {
-        logger.error('error on starting server', { err, formatStackTrace: true })
+        logger.error(err, 'error on starting server')
     }
 }
 

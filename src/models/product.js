@@ -16,63 +16,54 @@ class Product {
             const db = getDb()
             let product
             if (!this._id) {
-                logger.info('Saving new product. Product object:', { data: this })
                 product = await db.collection('products').insertOne(this)
-                logger.info('Product saved successfully. Saved product object:', { data: product })
                 return product
             }
-            logger.info(`Updating product with ID: ${this._id} [${typeof id}]. Updated product object:`, { data: this })
             product = await db.collection('products')
                 .updateOne(
                     { _id: parseIdFromHexString(this._id) },
                     { $set: this }
                 )
-            logger.info(`Product updated successfully. Updated product object:`, { data: product })
             return product
         } catch (err) {
             if (!this._id) {
-                logger.error('Error on product save', { err })
+                logger.error(err, 'Error on product save')
                 return
             }
-            logger.error('Error on product update', { err })
+            logger.error(err, 'Error on product update')
         }
     }
 
     static async fetchAll() {
         try {
             const db = getDb()
-            logger.info('Fetching all products...')
             const products = await db.collection('products')
                 .find()
                 .toArray()
-            logger.info('Products fetched successfully. Fetched products:', { data: products })
             return products
         } catch (err) {
-            logger.error('Error on product fetching', { err })
+            logger.error(err, 'Error on product fetching')
         }
     }
 
     static async findById(id) {
         try {
             const db = getDb()
-            logger.info(`Searching for product with ID: ${id} [${typeof id}]...`)
-            const product = await db.collection('products').findOne({ _id: parseIdFromHexString(id) })
-            logger.info(`Product found successfully. Found product object:`, { data: product })
+            const product = await db.collection('products')
+                .findOne({ _id: parseIdFromHexString(id) })
             return product
         } catch (err) {
-            logger.error('Error on fetching a single product', { err })
+            logger.error(err, 'Error on fetching a single product')
         }
     }
 
     static async deleteById(id) {
         try {
             const db = getDb()
-            logger.info(`Deleting product with ID: ${id} [${typeof id}]...`)
-            const product = await db.collection('products')
+            await db.collection('products')
                 .deleteOne({ _id: parseIdFromHexString(id) })
-            logger.info('Product deleted successfully.',  { data: product })
         } catch (err) {
-            logger.error('Error on delete product', { err })
+            logger.error(err, 'Error on delete product')
         }
     }
 }

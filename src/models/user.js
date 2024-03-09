@@ -2,54 +2,61 @@ const { getDb, parseIdFromHexString } = require('../config/mongo.config')
 const logger = require('../helpers/logger')
 
 class User {
-    constructor(username, email, cart, id) {
-        this.username = username
+    constructor(name, email, cart, id) {
+        this.name = name
         this.email = email
-        this.cart = cart
+        this.cart = cart || { items: [] }
         this._id = id
     }
 
     async save() {
         try {
-            logger.info('Saving user. Received user object:', { data: this })
             const db = getDb()
-            const user = await db.collection('users').insertOne(this)
-            logger.info('User saved successfully. Saved user object:', { data: user })
+            await db.collection('users').insertOne(this)
         } catch (err) {
-            logger.error('save(): Error when trying to save user', { err, formatStackTrace: true })
+            logger.error(err, 'Error when trying to save user', err)
         }
     }
 
+    // As a cart belongs to a user, in mongo, we can create an embedded document,
+    // that is, a user, which has a cart inside it.
     async addToCart(product) {
         try {
-            // const cartProduct = cart.items.findIndex(cp => {
-            //     logger.info(`cp._id: ${cp._id} [${typeof cp._id}] and product._id: ${product._id} [${typeof product._id}]`)
-            //     return cp._id === product._id
-            // })
-            logger.info(`product received in addToCart with id: ${this._id} [${typeof this._id}]`, { data: this })
-            const updatedCart = { items: [ { productId: product._id, quantity: 1 } ] }
-            updatedCart.subTotal = product.price
-            updatedCart.total = product.price
+            // Get index of product on the cart
+            const cartProductIdx = this.cart.items.findIndex(cp => cp.productId.toString() === product._id.toString())
+            // Copy currCartItems to a new array to avoid working in same reference
+            const updatedCartItems = [...this.cart.items]
+            // We created functions to obtain the sum of all subtotals of the products in the cart
+            const getSubTotal = (product) => product.subTotal
+            const sumSubTotals = (prevSubTotal, currSubTotal) => prevSubTotal + currSubTotal
+            // Case 1: product exists, so increase quantity and subTotal
+            if (cartProductIdx > -1) {
+                updatedCartItems[cartProductIdx].quantity += 1
+                updatedCartItems[cartProductIdx].subTotal += (+product.price)
+            } else { // Case 2: product not exists, so let's create a new one
+                updatedCartItems.push({ productId: product._id, quantity: 1, subTotal: (+product.price) })
+            }
+            // calculate totals and create a updated cart with new items
+            const getCartTotalPrice = updatedCartItems.map(getSubTotal).reduce(sumSubTotals)
+            const updatedCart = { items: updatedCartItems, total: getCartTotalPrice }
+            // then update in database
             const db = getDb()
-            const cartUpdate = db.collection('users').updateOne(
-                { _id: this._id},
+            await db.collection('users').updateOne(
+                { _id: this._id },
                 { $set: { cart: updatedCart } }
             )
-            logger.info('Cart updated successfully. cart object:', { data: cartUpdate })
         } catch (err) {
-            logger.error('addToCart(): error when trying to get the cart', { err, formatStackTrace: true })
+            logger.error('Error when trying to get the cart', err)
         }
     }
 
     static async findById(id) {
         try {
-            logger.info(`findById(): Searching for user with id: ${id} [${typeof id}]`)
             const db = getDb()
             const user = await db.collection('users').findOne({ _id: parseIdFromHexString(id) })
-            logger.info(`findById(): User ${user._id} [${typeof user._id}] retrieved from database. User object:`, { data: user })
             return user
         } catch (error) {
-            logger.error('findById(): Error when trying to get user', { error, formatStackTrace: true })
+            logger.error(err, 'Error when trying to get user')
         }
     }
 }

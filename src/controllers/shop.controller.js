@@ -3,9 +3,7 @@ const Product = require('../models/product')
 
 exports.getProducts = async (req, res) => {
     try {
-        logger.info(`Request received for fetching products. Path: ${req.path}, Method: ${req.method}`)
         const products = await Product.fetchAll()
-        logger.info(`Products fetched successfully. Path: ${req.path}, Method: ${req.method}`)
         res.render('shop/product-list', {
             products: products,
             pageTitle: 'All Products',
@@ -13,16 +11,14 @@ exports.getProducts = async (req, res) => {
             path: '/products'
         })
     } catch (err) {
-        logger.error('Error fetching products', { err, formatStackTrace: true })
+        logger.error(err)
     }
 }
 
 exports.getProduct = async (req, res) => {
     try {
         const { productId } = req.params
-        logger.info(`Request received for fetching product. Path: ${req.path}, Method: ${req.method}, Product ID: ${productId}`)
         const product = await Product.findById(productId)
-        logger.info(`Product fetched successfully. Path: ${req.path}, Method: ${req.method}, Product ID: ${productId}`)
         res.render('shop/product-detail', {
             product: product,
             pageTitle: product.title,
@@ -30,15 +26,13 @@ exports.getProduct = async (req, res) => {
             path: '/products'
         })
     } catch (err) {
-        logger.error('Error fetching product', { err, formatStackTrace: true })
+        logger.error(err)
     }
 }
 
 exports.getIndex = async (req, res) => {
     try {
-        logger.info(`Request received for fetching products. Path: ${req.path}, Method: ${req.method}`)
         const products = await Product.fetchAll()
-        logger.info(`Products fetched successfully. Path: ${req.path}, Method: ${req.method}`)
         res.render('shop/index', {
             products: products,
             pageTitle: 'Shop',
@@ -68,13 +62,8 @@ exports.getIndex = async (req, res) => {
 
 exports.postCart = async (req, res) => {
     try {
-        logger.info(`request received in`, { req })
         const { productId } = req.body
         const product = await Product.findById(productId)
-        logger.info(
-            `Product to be inserted in the cart: productId: ${productId} [${typeof productId}] - product._id: ${product._id} [${typeof product._id}]`,
-            { data: product }
-        )
         await req.user.addToCart(product)
         // // get the cart / get the product in the cart
         // const cart = await req.user.getCart()
@@ -108,7 +97,7 @@ exports.postCart = async (req, res) => {
         // }
         res.redirect('/cart')
     } catch (err) {
-        console.log(err)
+        logger.error(err)
     }
 }
 
