@@ -93,6 +93,24 @@ class User {
         }
     }
 
+    async addOrder() {
+        try {
+            const db = getDb()
+            // add the cart to the order
+            await db.collection('orders').insertOne(this.cart)
+            // clear the cart in user object
+            this.cart = { items: [], total: 0 }
+            // clear the cart in user database
+            await db.collection('users')
+                .updateOne(
+                    { _id: this._id },
+                    { $set: { cart: { items: [], total: 0 } } }
+                )
+        } catch (err) {
+            logger.error(err)
+        }
+    }
+
     static async findById(id) {
         try {
             const db = getDb()

@@ -48,7 +48,6 @@ exports.getIndex = async (req, res) => {
 exports.getCart = async (req, res) => {
     try {
         const cartProducts = await req.user.getCart()
-        logger.info(cartProducts, 'Meu carrinho')
         res.render('shop/cart', {
             pageTitle: 'Your Cart',
             styles: ['cart'],
@@ -84,24 +83,14 @@ exports.postCartDelete = async (req, res) => {
     }    
 }
 
-// exports.postOrder = async (req, res) => {
-//     try {
-//         const cart = await req.user.getCart()
-//         const cartProducts = await cart.getProducts()
-//         const order = await req.user.createOrder()
-//         await order.addProducts(cartProducts.map(product => {
-//             product.orderItem = {
-//                 quantity: product.cartItem.quantity,
-//                 subTotal: product.cartItem.subTotal
-//             }
-//             return product
-//         }))
-//         cart.setProducts(null)
-//         res.redirect('/orders')
-//     } catch (err) {
-//         console.log(err)
-//     }
-// }
+exports.postOrder = async (req, res) => {
+    try {
+        await req.user.addOrder()
+        res.redirect('/orders')
+    } catch (err) {
+        console.log(err)
+    }
+}
 
 // exports.getOrders = async (req, res) => {
 //     try {
