@@ -96,8 +96,18 @@ class User {
     async addOrder() {
         try {
             const db = getDb()
+            const cart = await this.getCart()
+            // create a order
+            const order = {
+                items: cart.product,
+                total: cart.total,
+                user: {
+                    _id: this._id,
+                    name: this.name
+                }
+            }
             // add the cart to the order
-            await db.collection('orders').insertOne(this.cart)
+            await db.collection('orders').insertOne(order)
             // clear the cart in user object
             this.cart = { items: [], total: 0 }
             // clear the cart in user database
