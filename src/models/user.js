@@ -5,7 +5,7 @@ class User {
     constructor(name, email, cart, id) {
         this.name = name
         this.email = email
-        this.cart = cart || { items: [] }
+        this.cart = cart || { items: [], total: 0 }
         this._id = id
     }
 
@@ -45,6 +45,27 @@ class User {
                 { _id: this._id },
                 { $set: { cart: updatedCart } }
             )
+        } catch (err) {
+            logger.error('Error when trying to add to the cart', err)
+        }
+    }
+
+    async getCart() {
+        try {
+            const db = getDb()
+            const productIds = this.cart.items.map(item => item.productId)
+            const products = await db.collection('products')
+                .find({ _id: { $in: productIds } })
+                .toArray()
+            const getItem = (product, item) => item.productId.toString() === product._id.toString()
+            const productToView = (product) => {
+                return {
+                    ...product,
+                    quantity: this.cart.items.find(item => getItem(product, item)).quantity,
+                    subTotal: this.cart.items.find(item => getItem(product, item)).subTotal,
+                }
+            }
+            return { product: products.map(productToView), total: this.cart.total }
         } catch (err) {
             logger.error('Error when trying to get the cart', err)
         }

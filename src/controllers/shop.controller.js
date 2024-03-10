@@ -45,56 +45,29 @@ exports.getIndex = async (req, res) => {
 }
 
 
-// exports.getCart = async (req, res) => {
-//     try {
-//         const cart = await req.user.getCart()
-//         const cartProducts = await cart.getProducts()
-//         res.render('shop/cart', {
-//             pageTitle: 'Your Cart',
-//             styles: ['cart'],
-//             path: '/cart',
-//             cart: cartProducts
-//         })
-//     } catch (err) {
-//         console.log(err)
-//     }
-// }
+exports.getCart = async (req, res) => {
+    try {
+        const cartProducts = await req.user.getCart()
+        logger.info(cartProducts, 'Meu carrinho')
+        res.render('shop/cart', {
+            pageTitle: 'Your Cart',
+            styles: ['cart'],
+            path: '/cart',
+            cart: {
+                items: cartProducts.product,
+                total: cartProducts.total
+            }
+        })
+    } catch (err) {
+        logger.error(err)
+    }
+}
 
 exports.postCart = async (req, res) => {
     try {
         const { productId } = req.body
         const product = await Product.findById(productId)
         await req.user.addToCart(product)
-        // // get the cart / get the product in the cart
-        // const cart = await req.user.getCart()
-        // const cartProduct = await cart.getProducts({ where: { id: productId } })
-        // // store cart in a new variable, if exists (length > 0)
-        // let product;
-        // if (cartProduct.length > 0) {
-        //     product = cartProduct[0]
-        // }
-        // // product is in the cart
-        // if (product) {
-        //     const newQuantity = product.cartItem.quantity + 1
-        //     const newSubTotal = product.cartItem.subTotal + product.price
-        //     await cart.addProduct(product, {
-        //         through: {
-        //             quantity: newQuantity,
-        //             subTotal: newSubTotal
-        //         }
-        //     })
-        // } else {
-        //     // product is not in the cart
-        //     const newCartProduct = await Product.findByPk(productId)
-        //     if (newCartProduct) {
-        //         await cart.addProduct(newCartProduct, {
-        //             through: {
-        //                 quantity: 1,
-        //                 subTotal: newCartProduct.price 
-        //             } 
-        //         })
-        //     }
-        // }
         res.redirect('/cart')
     } catch (err) {
         logger.error(err)
