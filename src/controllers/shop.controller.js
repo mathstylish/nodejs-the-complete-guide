@@ -92,16 +92,16 @@ exports.postOrder = async (req, res) => {
     }
 }
 
-// exports.getOrders = async (req, res) => {
-//     try {
-//         const orders = await req.user.getOrders({ include: ['products'] })
-//         res.render('shop/orders', {
-//             pageTitle: 'Your Orders',
-//             styles: ['shop', 'order'],
-//             path: '/orders',
-//             orders: orders
-//         })
-//     } catch (err) {
-//         console.log(err)
-//     }
-// }
+exports.getOrders = async (req, res) => {
+    try {
+        const orders = await req.user.getOrders()
+        res.render('shop/orders', {
+            pageTitle: 'Your Orders',
+            styles: ['shop', 'order'],
+            path: '/orders',
+            orders: orders
+        })
+    } catch (err) {
+        console.log(err)
+    }
+}

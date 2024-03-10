@@ -7,16 +7,16 @@
     <div class="orders">
         <% orders.forEach(order => { %>
             <section class="orders__item">
-                <p>Order Nº <%= order.id %></p>
-                <% order.products.forEach(product => { %>
+                <p>Order Nº <%= order._id %></p>
+                <% order.items.forEach(item => { %>
                     <div class="orders__image">
-                        <img src="/img/fake-products/<%=product.imageUrl%>.jpg" alt="<%=product.title%>">
+                        <img src="/img/fake-products/<%=item.imageUrl%>.jpg" alt="<%=item.title%>">
                     </div>
                     <div class="orders__details">
-                        <h3 class="orders__title"><%=product.title%></h3>
-                        <p class="orders__price">R$ <%=product.price%></p>
-                        <p class="orders__qty">qty: <%=product.orderItem.quantity%></p>
-                        <p class="orders__subtotal">R$ <%=product.orderItem.subTotal%></p>
+                        <h3 class="orders__title"><%=item.title%></h3>
+                        <p class="orders__price">R$ <%=item.price%></p>
+                        <p class="orders__qty">qty: <%=item.quantity%></p>
+                        <p class="orders__subtotal">R$ <%=item.subTotal%></p>
                     </div>
                 <% }) %>
             </section>

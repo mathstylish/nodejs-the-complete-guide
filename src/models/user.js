@@ -121,6 +121,18 @@ class User {
         }
     }
 
+    async getOrders() {
+        try {
+            const db = getDb()
+            const orders = await db.collection('orders')
+                .find({ 'user._id': this._id })
+                .toArray()
+            return orders
+        } catch (err) {
+            logger.error(err)
+        }
+    }
+
     static async findById(id) {
         try {
             const db = getDb()
