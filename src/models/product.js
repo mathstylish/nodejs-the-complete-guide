@@ -62,6 +62,13 @@ class Product {
             const db = getDb()
             await db.collection('products')
                 .deleteOne({ _id: parseIdFromHexString(id) })
+
+            // remove deleted items from the cart
+            // there is no need to await
+            db.collection('users').updateMany(
+                {},
+                { $pull: { 'cart.items': { _id: parseIdFromHexString(id) } } }
+            )
         } catch (err) {
             logger.error(err, 'Error on delete product')
         }
