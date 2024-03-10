@@ -71,6 +71,28 @@ class User {
         }
     }
 
+    async deleteItemFromCart(productId) {
+        try {
+            const updatedCartItems = this.cart.items.filter(item => {
+                return item.productId.toString() !== productId.toString()
+            })
+            // We created functions to obtain the sum of all subtotals of the products in the cart
+            const getSubTotal = (product) => product.subTotal
+            const sumSubTotals = (prevSubTotal, currSubTotal) => prevSubTotal + currSubTotal
+            // re-calculate totals
+            let getCartTotalPrice = updatedCartItems.length > 0
+                ? updatedCartItems.map(getSubTotal).reduce(sumSubTotals) : 0
+            const db = getDb()
+            await db.collection('users')
+                .updateOne(
+                    { _id: this._id },
+                    { $set: { cart: { items: updatedCartItems, total: getCartTotalPrice } } }
+                )
+        } catch (err) {
+            logger.error('Error when trying to delete', err)
+        }
+    }
+
     static async findById(id) {
         try {
             const db = getDb()
