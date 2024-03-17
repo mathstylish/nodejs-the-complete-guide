@@ -74,9 +74,9 @@
     font-size: 0.85rem;
 }
 .cart__btn:hover {
-        background: #478741;
-        cursor: pointer;
-        transition: all 0.3s ease-in-out;
+    background: #478741;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
 }
 
 .cart__order {

@@ -123,7 +123,6 @@
         transition: all 0.3s ease-in-out;
     }
 
-
     .header__menu-item a:hover.active {
         border-color: transparent;
     }
@@ -132,5 +131,4 @@
     .header__menu--open {
         display: block;
     }
-
 }

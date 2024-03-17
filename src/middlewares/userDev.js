@@ -1,6 +1,6 @@
-const appEnv = require('../config/env')
-const logger = require('../helpers/logger')
-const User = require('../models/user')
+const appEnv = require("../config/env")
+const logger = require("../helpers/logger")
+const User = require("../models/user")
 
 const userDev = async (req, res, next) => {
     try {

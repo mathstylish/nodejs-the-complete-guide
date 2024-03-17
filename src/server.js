@@ -1,7 +1,7 @@
-const { mongoConnect } = require('./config/mongo.config.js')
-const app = require('./app');
-const appEnv = require('./config/env')
-const logger = require('./helpers/logger')
+const { mongoConnect } = require("./config/mongo.config.js")
+const app = require("./app")
+const appEnv = require("./config/env")
+const logger = require("./helpers/logger")
 
 const init = async () => {
     try {
@@ -10,7 +10,7 @@ const init = async () => {
             logger.info(`application started`)
         })
     } catch (err) {
-        logger.error(err, 'error on starting server')
+        logger.error(err, "error on starting server")
     }
 }
 

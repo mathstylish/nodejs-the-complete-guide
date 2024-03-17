@@ -4,9 +4,17 @@
   "description": "",
   "main": "src/server.js",
   "scripts": {
-    "dev": "dotenv -c development -- nodemon | pino-pretty",
-    "start": "nodemon",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node",
+    "start:dev": "dotenv -c development -- nodemon | pino-pretty",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "husky:prepare": "husky",
+    "prettier:format": "prettier --write 'src/**' --ignore-unknown"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint 'src/**' --fix",
+      "prettier --check 'src/**' --ignore-unknown"
+    ]
   },
   "keywords": [],
   "author": "",
@@ -16,18 +24,22 @@
     "envalid": "^8.0.0",
     "express": "^4.18.2",
     "mongodb": "^6.4.0",
-    "mysql2": "^3.9.2",
-    "pino": "^8.19.0",
-    "sequelize": "^6.37.1"
+    "pino": "^8.19.0"
   },
   "devDependencies": {
     "dotenv-cli": "^7.3.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "git-commit-msg-linter": "^5.0.7",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
     "nodemon": "^3.0.3",
-    "pino-pretty": "^10.3.1"
+    "pino-pretty": "^10.3.1",
+    "prettier": "^3.2.5"
   },
   "nodemonConfig": {
-    "ignore": [
-      "*.json"
+    "watch": [
+      "src"
     ]
   }
 }
