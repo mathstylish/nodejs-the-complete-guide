@@ -60,15 +60,13 @@ const adminController = {
 
     postEditProduct: async (req, res) => {
         try {
-            const { productId, title, imageUrl, price, description } = req.body
-            const updatedProduct = new Product(
-                title,
-                imageUrl,
-                price,
-                description,
-                productId,
-            )
-            await updatedProduct.save()
+            const { productId, title, price, description, imageUrl } = req.body
+            const existingProduct = await Product.findById(productId)
+            existingProduct.title = title
+            existingProduct.price = price
+            existingProduct.description = description
+            existingProduct.imageUrl = imageUrl
+            await existingProduct.save()
             res.redirect("/admin/products")
         } catch (err) {
             logger.error(err)
