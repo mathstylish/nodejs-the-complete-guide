@@ -27,15 +27,13 @@ const adminController = {
 
     postAddProduct: async (req, res) => {
         try {
-            const { title, imageUrl, price, description } = req.body
-            const product = new Product(
+            const { title, price, description, imageUrl } = req.body
+            const product = new Product({
                 title,
-                imageUrl,
                 price,
                 description,
-                null,
-                req.user._id,
-            )
+                imageUrl,
+            })
             await product.save()
             res.redirect("/admin/products")
         } catch (err) {
