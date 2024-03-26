@@ -1,6 +1,6 @@
-const appEnv = require("../config/env")
-const logger = require("../helpers/logger")
-const User = require("../models/user")
+import appEnv from "../config/env.js"
+import logger from "../helpers/logger.js"
+import User from "../models/user.js"
 
 const userDev = async (req, res, next) => {
     try {
@@ -12,4 +12,4 @@ const userDev = async (req, res, next) => {
     }
 }
 
-module.exports = userDev
+export default userDev

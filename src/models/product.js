@@ -1,3 +1,5 @@
+export default class Product {}
+
 // const logger = require("../helpers/logger")
 // const { getDb, parseIdFromHexString } = require("../config/mongo.config.js")
 

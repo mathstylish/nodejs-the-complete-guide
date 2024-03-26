@@ -1,25 +1,25 @@
-const express = require("express")
+import express from "express"
 
-const path = require("./helpers/path.js")
+import path from "node:path"
 
-const adminRoutes = require("./routes/admin.route.js")
-const shopRoutes = require("./routes/shop.route.js")
-const errorController = require("./controllers/error.controller.js")
-const userDev = require("./middlewares/userDev")
+import adminRoutes from "./routes/admin.route.js"
+import shopRoutes from "./routes/shop.route.js"
+// import userDev from "./middlewares/userDev.js"
+import resourceNotFound from "./middlewares/resourceNotFound.js"
 
 const app = express()
 
 app.set("view engine", "ejs")
-app.set("views", path.pathTo("views"))
+app.set("views", path.join(import.meta.dirname, "views"))
 
 app.use(express.urlencoded({ extended: true }))
-app.use(express.static(path.pathTo("public")))
+app.use(express.static(path.join(import.meta.dirname, "public")))
 
-app.use(userDev) // user to work in development
+// app.use(userDev) // user to work in development
 
 app.use("/admin", adminRoutes)
 app.use(shopRoutes)
 
-app.use(errorController.get404)
+app.use(resourceNotFound)
 
-module.exports = app
+export default app

@@ -1,8 +1,8 @@
-const mongoose = require("mongoose")
+import mongoose from "mongoose"
 
-const app = require("./app")
-const appEnv = require("./config/env")
-const logger = require("./helpers/logger")
+import app from "./app.js"
+import appEnv from "./config/env.js"
+import logger from "./helpers/logger.js"
 
 const init = async () => {
     try {

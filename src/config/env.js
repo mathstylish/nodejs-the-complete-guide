@@ -1,4 +1,4 @@
-const envalid = require("envalid")
+import envalid from "envalid"
 
 const appEnv = envalid.cleanEnv(process.env, {
     PORT: envalid.port(),
@@ -16,4 +16,4 @@ const appEnv = envalid.cleanEnv(process.env, {
     }),
 })
 
-module.exports = appEnv
+export default appEnv

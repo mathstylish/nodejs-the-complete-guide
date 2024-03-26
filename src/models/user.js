@@ -1,3 +1,5 @@
+export default class User {}
+
 // const { getDb, parseIdFromHexString } = require("../config/mongo.config")
 // const logger = require("../helpers/logger")
 
