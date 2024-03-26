@@ -1,4 +1,29 @@
-export default class Product {}
+import { Schema, model } from "mongoose"
+
+// _id as a type of ObjectId is added automatically by mongoose
+const productSchema = new Schema({
+    title: {
+        type: String,
+        required: true,
+    },
+    price: {
+        type: Number,
+        required: true,
+    },
+    description: {
+        type: String,
+        required: true,
+    },
+    imageUrl: {
+        type: String,
+        required: true,
+    },
+})
+
+// will be created as 'products' collection
+const Product = model("Product", productSchema)
+
+export default Product
 
 // const logger = require("../helpers/logger")
 // const { getDb, parseIdFromHexString } = require("../config/mongo.config.js")
