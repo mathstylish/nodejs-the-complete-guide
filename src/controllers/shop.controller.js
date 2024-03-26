@@ -4,7 +4,7 @@ import Product from "../models/product.js"
 const shopController = {
     getProducts: async (req, res) => {
         try {
-            const products = await Product.fetchAll()
+            const products = await Product.find()
             res.render("shop/product-list", {
                 products: products,
                 pageTitle: "All Products",
@@ -33,7 +33,7 @@ const shopController = {
 
     getIndex: async (req, res) => {
         try {
-            const products = await Product.fetchAll()
+            const products = await Product.find()
             res.render("shop/index", {
                 products: products,
                 pageTitle: "Shop",
