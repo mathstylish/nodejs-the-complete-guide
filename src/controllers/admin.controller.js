@@ -76,7 +76,7 @@ const adminController = {
     postDeleteProduct: async (req, res) => {
         try {
             const { productId } = req.body
-            await Product.deleteById(productId)
+            await Product.findByIdAndDelete(productId)
             res.redirect("/admin/products")
         } catch (err) {
             logger.error(err)
