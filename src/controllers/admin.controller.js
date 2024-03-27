@@ -28,11 +28,14 @@ const adminController = {
     postAddProduct: async (req, res) => {
         try {
             const { title, price, description, imageUrl } = req.body
+            // You can pass req.user or req.user.id. Mongoose will extract id from req.user, not the entire user
+            const userId = req.user
             const product = new Product({
                 title,
                 price,
                 description,
                 imageUrl,
+                userId,
             })
             await product.save()
             res.redirect("/admin/products")
