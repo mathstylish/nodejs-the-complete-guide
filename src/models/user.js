@@ -1,4 +1,36 @@
-export default class User {}
+import { Schema, model } from "mongoose"
+
+const userSchema = new Schema({
+    name: {
+        type: String,
+        required: true,
+    },
+    email: {
+        type: String,
+        required: true,
+    },
+    cart: {
+        items: [
+            {
+                productId: {
+                    type: Schema.Types.ObjectId,
+                    required: true,
+                },
+                quantity: { type: Number, required: true },
+                subTotal: { type: Number, required: true },
+            },
+        ],
+        total: {
+            type: Number,
+            required: true,
+        },
+    },
+})
+
+// will be created as 'products' collection
+const User = model("User", userSchema)
+
+export default User
 
 // const { getDb, parseIdFromHexString } = require("../config/mongo.config")
 // const logger = require("../helpers/logger")

@@ -5,7 +5,7 @@ import User from "../models/user.js"
 const userDev = async (req, res, next) => {
     try {
         const user = await User.findById(appEnv.MONGO_DEV_USER_ID)
-        req.user = new User(user.name, user.email, user.cart, user._id)
+        req.user = user
         next()
     } catch (err) {
         logger.error(err)

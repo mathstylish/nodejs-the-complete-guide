@@ -9,9 +9,15 @@ const appEnv = envalid.cleanEnv(process.env, {
     NODE_ENV: envalid.str({
         choices: ["development", "production", "test", "staging"],
     }),
-    MONGO_URI: envalid.str({ default: "" }),
+    MONGO_URI: envalid.str({
+        desc: "set this variable with a valid mongo uri",
+    }),
     MONGO_DEV_USER_ID: envalid.str({
-        desc: "You must create a user in a some collection in MongoDB and put generated id in this env variable",
+        desc: `
+        - set this variable as empty string in a .env file
+        - run chmod +x create-user-dev.sh in root folder
+        - Then run create-user-dev.sh (edit name and email field if you want),
+        - Copy generated id from terminal response and update this variable with this id`,
         example: "MONGO_DEV_USER_ID=<generated-id>",
     }),
 })
