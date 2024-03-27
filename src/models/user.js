@@ -28,6 +28,44 @@ const userSchema = new Schema({
     },
 })
 
+// 'this' here is from userSchema instance
+userSchema.methods.addToCart = async function (product) {
+    // Get index of product on the cart
+    const cartProductIdx = this.cart.items.findIndex(
+        (cp) => cp.productId.toString() === product._id.toString(),
+    )
+    // Copy currCartItems to a new array to avoid working in same reference
+    const updatedCartItems = [...this.cart.items]
+    // We created functions to obtain the sum of all subtotals of the products in the cart
+    const getSubTotal = (product) => product.subTotal
+    const sumSubTotals = (prevSubTotal, currSubTotal) =>
+        prevSubTotal + currSubTotal
+    // Case 1: product exists, so increase quantity and subTotal
+    if (cartProductIdx > -1) {
+        updatedCartItems[cartProductIdx].quantity += 1
+        updatedCartItems[cartProductIdx].subTotal += +product.price
+    } else {
+        // Case 2: product not exists, so let's create a new one
+        updatedCartItems.push({
+            productId: product._id,
+            quantity: 1,
+            subTotal: +product.price,
+        })
+    }
+    // calculate totals and create a updated cart with new items
+    const getCartTotalPrice = updatedCartItems
+        .map(getSubTotal)
+        .reduce(sumSubTotals)
+
+    const updatedCart = {
+        items: updatedCartItems,
+        total: getCartTotalPrice,
+    }
+    // then update in database
+    this.cart = updatedCart
+    await this.save()
+}
+
 // will be created as 'products' collection
 const User = model("User", userSchema)
 
