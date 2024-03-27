@@ -4,6 +4,9 @@ import Product from "../models/product.js"
 const adminController = {
     getProducts: async (req, res) => {
         try {
+            // Product.find().populate("userId"): get all user information and not just the id
+            // Product.find().select("title price -_id"): get only title and price, excluding id
+            // Product.find().select("title price -_id").populate("userId", "name"): select example above and for user, get only user name
             const products = await Product.find()
             res.render("admin/products", {
                 products: products,
