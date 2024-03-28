@@ -50,14 +50,14 @@ const shopController = {
 
     getCart: async (req, res) => {
         try {
-            const cartProducts = await req.user.getCart()
+            const user = await req.user.populate("cart.items.productId")
             res.render("shop/cart", {
                 pageTitle: "Your Cart",
                 styles: ["cart"],
                 path: "/cart",
                 cart: {
-                    items: cartProducts.product,
-                    total: cartProducts.total,
+                    items: user.cart.items,
+                    total: user.cart.total,
                 },
             })
         } catch (err) {

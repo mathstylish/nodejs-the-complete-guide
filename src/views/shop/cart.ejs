@@ -5,19 +5,19 @@
 <main class="container" layout-override>
     <% if (cart.items.length > 0) { %>
     <div class="cart">
-        <% cart.items.forEach(product => { %>
+        <% cart.items.forEach(item => { %>
             <section class="cart__item">
                 <div class="cart__image">
-                    <img src="/img/fake-products/<%=product.imageUrl%>.jpg" alt="<%=product.title%>">
+                    <img src="/img/fake-products/<%=item.productId.imageUrl%>.jpg" alt="<%=item.productId.title%>">
                 </div>
                 <div class="cart__details">
-                    <h3 class="cart__title"><%=product.title%></h3>
-                    <p class="cart__price">R$ <%=product.price%></p>
-                    <p class="cart__qty">qty: <%=product.quantity%></p>
-                    <p class="cart__subtotal">R$ <%=(+product.subTotal).toFixed(2)%></p>
+                    <h3 class="cart__title"><%=item.productId.title%></h3>
+                    <p class="cart__price">R$ <%=item.productId.price%></p>
+                    <p class="cart__qty">qty: <%=item.quantity%></p>
+                    <p class="cart__subtotal">R$ <%=(+item.subTotal).toFixed(2)%></p>
                     <form action="/cart-delete-item" method="POST">
                         <button type="submit" class="cart__btn">Delete</button>
-                        <input type="hidden" name="productId" value="<%= product._id %>">
+                        <input type="hidden" name="productId" value="<%= item.productId._id %>">
                     </form>
                 </div>
             </section>
